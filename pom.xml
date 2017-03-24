@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>za.co.wifi.info</groupId>
+    <artifactId>wifi-info-client</artifactId>
+    <version>1.0</version>
+    <packaging>pom</packaging>
+        
+    <name>Wifi-Info Client ${version} TLP</name>
+  
+    <description>
+        Wifi-Info Client Top Level Project: Provides single point of control for 
+        plugin definition and top level model declaration
+    </description>
+    
+    <scm>
+        <connection>scm:git:git@github.com:zifamathebula/wifi-info-client.git</connection>
+        <developerConnection>scm:git:git@github.com:zifamathebula/wifi-info-client.git</developerConnection>
+        <url>https://github.com/zifamathebula/wifi-info-client.git</url>
+    </scm>
+    
+    <properties>      
+        <!-- Plugin versions -->
+        <version.compiler.plugin>3.6.0</version.compiler.plugin>
+        <version.javadoc.plugin>2.10.4</version.javadoc.plugin>
+        <version.springboot.plugin>1.5.2.RELEASE</version.springboot.plugin>
+    </properties>
+
+    <modules>
+        <module>Wifi-Info-Client-Parent</module>
+        <module>Wifi-Info-Client-RS</module>
+    </modules>
+    
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!--The Compiler Plugin is used to compile the sources of your project -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${version.compiler.plugin}</version>
+                </plugin>
+
+                <!--The Javadoc Plugin uses the Javadoc tool to generate javadocs for 
+                the specified project -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>${version.javadoc.plugin}</version>
+                </plugin>
+                
+                <!--The Spring Boot Plugin allows you to package executable jar 
+                or war archives and run an application “in-place”. -->
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${version.springboot.plugin}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>

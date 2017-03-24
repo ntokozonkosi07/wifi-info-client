@@ -1,0 +1,9 @@
+/target/
+/deployments/
+/log/
+target
+.settings/*
+.project
+.classpath
+nbactions.xml
+nb-configuration.xml
