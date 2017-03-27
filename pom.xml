@@ -29,7 +29,7 @@
 
     <modules>
         <module>Wifi-Info-Client-Parent</module>
-        <module>Wifi-Info-Client-RS</module>
+        <module>Wifi-Info-Client-App</module>
     </modules>
     
     <build>

@@ -39,6 +39,8 @@
         <version.springboot.bom>1.5.2.RELEASE</version.springboot.bom>
         
         <!--Compile time dependencies -->
+        <version.postgresql>9.4.1212.jre7</version.postgresql> 
+        <version.liquibase>3.5.3</version.liquibase> 
         <version.commons.lang>2.6</version.commons.lang> 
         <version.commons.collections>3.2</version.commons.collections> 
         
@@ -54,6 +56,18 @@
                 <scope>import</scope>
             </dependency>
          
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${version.postgresql}</version>
+            </dependency>
+        
+            <dependency>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-core</artifactId>
+                <version>${version.liquibase}</version>
+            </dependency>
+
             <dependency>
                 <groupId>commons-lang</groupId>
                 <artifactId>commons-lang</artifactId>
@@ -92,21 +106,6 @@
                     <show>private</show>
                     <docencoding>${project.reporting.outputEncoding}</docencoding>
                     <nohelp>false</nohelp>
-                </configuration>
-            </plugin>
-            
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <addResources>true</addResources>
                 </configuration>
             </plugin>
         </plugins>
