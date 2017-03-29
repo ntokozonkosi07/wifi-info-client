@@ -19,6 +19,13 @@
         definition
     </description>
     
+    <repositories>
+        <repository>
+            <id>releases</id>
+            <url>https://repository.apache.org/content/repositories/releases</url>
+        </repository>
+    </repositories>
+
     <properties>
         <!-- Project properties -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -41,8 +48,8 @@
         <!--Compile time dependencies -->
         <version.postgresql>9.4.1212.jre7</version.postgresql> 
         <version.liquibase>3.5.3</version.liquibase> 
-        <version.commons.lang>2.6</version.commons.lang> 
-        <version.commons.collections>3.2</version.commons.collections> 
+        <version.commons.lang>3.5</version.commons.lang> 
+        <version.commons.collections>3.2.1</version.commons.collections> 
         
     </properties>
 
@@ -69,8 +76,8 @@
             </dependency>
 
             <dependency>
-                <groupId>commons-lang</groupId>
-                <artifactId>commons-lang</artifactId>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
                 <version>${version.commons.lang}</version>
             </dependency>
             

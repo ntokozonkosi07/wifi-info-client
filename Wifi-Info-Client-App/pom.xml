@@ -26,6 +26,12 @@
             <artifactId>liquibase-core</artifactId>
         </dependency>
 
+        <!-- Commons dependencies -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+            
         <!-- Spring Boot dependencies -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
