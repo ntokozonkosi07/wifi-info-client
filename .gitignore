@@ -1,9 +1,11 @@
-/target/
-/deployments/
-/log/
-target
+logs/
+target/
 .settings/*
 .project
 .classpath
+*.*~
+*.iml
+*.ipr
+*.iws
 nbactions.xml
 nb-configuration.xml
