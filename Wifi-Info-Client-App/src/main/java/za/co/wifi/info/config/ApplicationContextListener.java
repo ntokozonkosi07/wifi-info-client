@@ -1,4 +1,4 @@
-package za.co.wifi.info.client.config;
+package za.co.wifi.info.config;
 
 import java.util.Date;
 

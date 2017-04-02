@@ -11,6 +11,8 @@ import za.co.wifi.info.client.web.model.Category;
 @Component
 public class AdvertShuffleEvent extends AbstractAdvertEvent {
 
+    private static final long SYNC_INTERVAL = 3600000;
+
     private final AdvertService advertService;
 
     @Autowired
@@ -18,10 +20,10 @@ public class AdvertShuffleEvent extends AbstractAdvertEvent {
         this.advertService = advertService;
     }
 
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = SYNC_INTERVAL)
     public void shuffleCategoryAdverts() {
         LOGGER.info("Shuffling category adverts");
-        
+
         try {
             List<Category> categoryAdverts = advertService.getCategoryAdverts();
             if (CollectionUtils.isEmpty(categoryAdverts)) {

@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import za.co.wifi.info.remote.client.error.OperationFailedException;
@@ -16,6 +17,7 @@ import za.co.wifi.info.remote.client.model.CategoryDTO;
 import za.co.wifi.info.remote.client.model.HOInfoDTO;
 import za.co.wifi.info.remote.client.model.NodeDTO;
 
+@Service
 public class RemoteAdvertClient {
 
     private final String serviceEndpoint;

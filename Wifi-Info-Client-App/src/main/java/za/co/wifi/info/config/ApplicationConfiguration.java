@@ -1,4 +1,4 @@
-package za.co.wifi.info.client.config;
+package za.co.wifi.info.config;
 
 import java.util.Arrays;
 import org.slf4j.Logger;
@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = "za.co.wifi.info")
+@ComponentScan(basePackages = "za.co.wifi.info.client")
 public class ApplicationConfiguration {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationConfiguration.class.getName());

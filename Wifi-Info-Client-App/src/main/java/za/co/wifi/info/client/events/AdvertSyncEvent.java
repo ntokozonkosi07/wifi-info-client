@@ -11,6 +11,8 @@ import za.co.wifi.info.client.web.model.Category;
 @Component
 public class AdvertSyncEvent extends AbstractAdvertEvent {
 
+    private static final long SYNC_INTERVAL = 3600000;
+
     private final AdvertService advertService;
 
     @Autowired
@@ -18,7 +20,7 @@ public class AdvertSyncEvent extends AbstractAdvertEvent {
         this.advertService = advertService;
     }
 
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = SYNC_INTERVAL)
     public void syncCategoryAdverts() {
         LOGGER.info("Syncing category adverts");
 
