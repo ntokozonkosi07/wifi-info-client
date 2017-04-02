@@ -21,7 +21,6 @@ public class RemoteAdvertClient {
     private final String serviceEndpoint;
     private final String systemHealthEndpoint;
     private final String verifyDeviceEndpoint;
-    private final String verifyTimeEndpoint;
     private final String lookupCategoriesEndpoint;
     private final String lookupBannerEndpoint;
     private final String lookupAdvertsEndpoint;
@@ -33,7 +32,6 @@ public class RemoteAdvertClient {
     public RemoteAdvertClient(@Value("${remote.client.url}") String serviceEndpoint,
             @Value("${remote.client.health.url}") String systemHealthEndpoint,
             @Value("${remote.client.verify.device.url}") String verifyDeviceEndpoint,
-            @Value("${remote.client.verify.time.url}") String verifyTimeEndpoint,
             @Value("${remote.client.lookup.category.url}") String lookupCategoriesEndpoint,
             @Value("${remote.client.lookup.banner.url}") String lookupBannerEndpoint,
             @Value("${remote.client.lookup.adverts.url}") String lookupAdvertsEndpoint,
@@ -42,7 +40,6 @@ public class RemoteAdvertClient {
         this.serviceEndpoint = serviceEndpoint;
         this.systemHealthEndpoint = systemHealthEndpoint;
         this.verifyDeviceEndpoint = verifyDeviceEndpoint;
-        this.verifyTimeEndpoint = verifyTimeEndpoint;
         this.lookupCategoriesEndpoint = lookupCategoriesEndpoint;
         this.lookupBannerEndpoint = lookupBannerEndpoint;
         this.lookupAdvertsEndpoint = lookupAdvertsEndpoint;

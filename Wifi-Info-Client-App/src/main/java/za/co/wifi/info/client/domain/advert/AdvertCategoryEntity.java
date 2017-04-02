@@ -1,4 +1,4 @@
-package za.co.wifi.info.client.domain.category;
+package za.co.wifi.info.client.domain.advert;
 
 import java.io.Serializable;
 import javax.persistence.CascadeType;
@@ -13,6 +13,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import za.co.wifi.info.client.domain.advert.AdvertEntity;
 import za.co.wifi.info.client.domain.BaseEntity;
+import za.co.wifi.info.client.domain.category.CategoryEntity;
 
 /**
  * Copyright (C) 2014 RynMag Management Systems. All rights reserved.
