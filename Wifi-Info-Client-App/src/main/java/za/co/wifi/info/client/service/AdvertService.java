@@ -29,14 +29,11 @@ public class AdvertService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AdvertService.class.getName());
 
-    @Autowired
-    private AdvertRepository advertRepository;
+    private final AdvertRepository advertRepository;
 
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
-    @Autowired
-    private NodeBannerRepository nodeBannerRepository;
+    private final NodeBannerRepository nodeBannerRepository;
 
     private DownloadPageEntity downloadPage;
 
@@ -44,6 +41,14 @@ public class AdvertService {
 
     private List<BannerLink> bannerLinkAdverts;
 
+    @Autowired
+    public AdvertService(AdvertRepository advertRepository, CategoryRepository categoryRepository, NodeBannerRepository nodeBannerRepository) {
+        this.advertRepository = advertRepository;
+        this.categoryRepository = categoryRepository;
+        this.nodeBannerRepository = nodeBannerRepository;
+    }
+
+    
     @PostConstruct
     private void init() {
         downloadPage = this.generateDownloadPage();

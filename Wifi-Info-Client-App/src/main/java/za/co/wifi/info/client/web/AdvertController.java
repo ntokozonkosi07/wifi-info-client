@@ -1,7 +1,10 @@
 package za.co.wifi.info.client.web;
 
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -18,6 +21,8 @@ import za.co.wifi.info.client.web.model.File;
 @RequestMapping("/wifi-info-rs/restapi/advert")
 public class AdvertController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(AdvertController.class.getName());
+    
     private final AdvertService advertService;
 
     @Autowired
@@ -26,8 +31,11 @@ public class AdvertController {
     }
 
     @ResponseBody
+    @Cacheable(value = "adverts",key = "page_download")
     @RequestMapping(path = "/page_download", method = RequestMethod.GET)
     public ResponseEntity generateDownloadPage() {
+        LOGGER.info("Calling service - page_download");
+        
         try {
             File downloadPage = advertService.getDownloadPage();
             if (downloadPage == null) {
@@ -41,8 +49,11 @@ public class AdvertController {
     }
 
     @ResponseBody
+    @Cacheable(value = "adverts",key = "banners")
     @RequestMapping(path = "/generate/banners", method = RequestMethod.GET)
     public ResponseEntity generateBannerLinkAdverts() {
+        LOGGER.info("Calling service - /generate/banners");
+        
         try {
             List<BannerLink> bannerLinkAdverts = advertService.getBannerLinkAdverts();
             if (CollectionUtils.isEmpty(bannerLinkAdverts)) {
@@ -56,8 +67,11 @@ public class AdvertController {
     }
 
     @ResponseBody
+    @Cacheable(value = "adverts",key = "adverts")
     @RequestMapping(path = "/generate/adverts", method = RequestMethod.GET)
     public ResponseEntity generateCategoryAdverts() {
+        LOGGER.info("Calling service - /generate/adverts");
+        
         try {
             List<Category> categoryAdverts = advertService.getCategoryAdverts();
             if (CollectionUtils.isEmpty(categoryAdverts)) {
