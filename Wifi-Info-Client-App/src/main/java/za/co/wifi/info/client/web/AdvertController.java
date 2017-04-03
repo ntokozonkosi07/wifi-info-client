@@ -31,7 +31,7 @@ public class AdvertController {
     }
 
     @ResponseBody
-    @Cacheable(value = "adverts",key = "page_download")
+    //@Cacheable(value = "adverts",key = "page_download")
     @RequestMapping(path = "/page_download", method = RequestMethod.GET)
     public ResponseEntity generateDownloadPage() {
         LOGGER.info("Calling service - page_download");
@@ -49,7 +49,7 @@ public class AdvertController {
     }
 
     @ResponseBody
-    @Cacheable(value = "adverts",key = "banners")
+    //@Cacheable(value = "adverts",key = "banners")
     @RequestMapping(path = "/generate/banners", method = RequestMethod.GET)
     public ResponseEntity generateBannerLinkAdverts() {
         LOGGER.info("Calling service - /generate/banners");
@@ -67,7 +67,7 @@ public class AdvertController {
     }
 
     @ResponseBody
-    @Cacheable(value = "adverts",key = "adverts")
+    //@Cacheable(value = "adverts",key = "adverts")
     @RequestMapping(path = "/generate/adverts", method = RequestMethod.GET)
     public ResponseEntity generateCategoryAdverts() {
         LOGGER.info("Calling service - /generate/adverts");
