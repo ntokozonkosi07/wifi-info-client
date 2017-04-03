@@ -25,6 +25,7 @@
         <version.compiler.plugin>3.6.0</version.compiler.plugin>
         <version.javadoc.plugin>2.10.4</version.javadoc.plugin>
         <version.springboot.plugin>1.5.2.RELEASE</version.springboot.plugin>
+        <version.liquibase.plugin>3.5.3</version.liquibase.plugin>
     </properties>
 
     <modules>
@@ -56,6 +57,12 @@
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
                     <version>${version.springboot.plugin}</version>
+                </plugin>
+                
+                <plugin>
+                    <groupId>org.liquibase</groupId>
+                    <artifactId>liquibase-maven-plugin</artifactId>
+                    <version>${version.liquibase.plugin}</version>
                 </plugin>
             </plugins>
         </pluginManagement>

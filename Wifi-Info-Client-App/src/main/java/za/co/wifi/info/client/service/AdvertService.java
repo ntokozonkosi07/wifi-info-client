@@ -7,6 +7,7 @@ import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 import za.co.wifi.info.client.web.model.Advert;
 import za.co.wifi.info.client.web.model.BannerLink;
@@ -227,7 +228,7 @@ public class AdvertService {
         } catch (DBOperationFailedException ex) {
             adverts = new LinkedList<>();
         }
-        
+
         return adverts;
     }
 }

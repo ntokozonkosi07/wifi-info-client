@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<infinispan xmlns="urn:infinispan:config:7.2">
+    <cache-container default-cache="default">
+        <local-cache name="page_download" statistics="true">
+            <eviction max-entries="2000"/>
+            <expiration lifespan="3600000"/>
+        </local-cache>
+        <local-cache name="banners" statistics="true">
+            <eviction max-entries="2000"/>
+            <expiration lifespan="3600000"/>
+        </local-cache>
+        <local-cache name="adverts" statistics="true">
+            <eviction max-entries="2000"/>
+            <expiration lifespan="3600000"/>
+        </local-cache>
+    </cache-container>
+</infinispan>

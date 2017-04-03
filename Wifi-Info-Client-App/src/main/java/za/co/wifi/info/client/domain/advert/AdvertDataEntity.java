@@ -1,6 +1,7 @@
 package za.co.wifi.info.client.domain.advert;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,5 +27,30 @@ public class AdvertDataEntity extends BaseBinaryDataEntity implements Serializab
 
     public void setAdvertDataRef(Long advertDataRef) {
         this.advertDataRef = advertDataRef;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 29 * hash + Objects.hashCode(this.advertDataRef);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final AdvertDataEntity other = (AdvertDataEntity) obj;
+        if (!Objects.equals(this.advertDataRef, other.advertDataRef)) {
+            return false;
+        }
+        return true;
     }
 }

@@ -3,6 +3,8 @@ package za.co.wifi.info.client.domain.advert;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -53,8 +55,7 @@ public class AdvertEntity extends BaseEntity implements Serializable {
     @JoinColumn(name = "advert_link_data_ref", referencedColumnName = "advert_data_ref", nullable = true)
     private AdvertDataEntity advertLinkData;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(referencedColumnName = "advert_ref")
+    @OneToMany(mappedBy = "advertRef", cascade = CascadeType.ALL)
     private List<AdvertCategoryEntity> advertCategories;
 
     public Long getAdvertRef() {
@@ -119,5 +120,58 @@ public class AdvertEntity extends BaseEntity implements Serializable {
 
     public void setAdvertCategories(List<AdvertCategoryEntity> advertCategories) {
         this.advertCategories = advertCategories;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 37 * hash + Objects.hashCode(this.advertRef);
+        hash = 37 * hash + Objects.hashCode(this.advertRefNo);
+        hash = 37 * hash + Objects.hashCode(this.adType);
+        hash = 37 * hash + Objects.hashCode(this.startDate);
+        hash = 37 * hash + Objects.hashCode(this.endDate);
+        hash = 37 * hash + Objects.hashCode(this.advertData);
+        hash = 37 * hash + Objects.hashCode(this.advertLinkData);
+        hash = 37 * hash + Objects.hashCode(this.advertCategories);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final AdvertEntity other = (AdvertEntity) obj;
+        if (!Objects.equals(this.advertRefNo, other.advertRefNo)) {
+            return false;
+        }
+        if (!Objects.equals(this.advertRef, other.advertRef)) {
+            return false;
+        }
+        if (this.adType != other.adType) {
+            return false;
+        }
+        if (!Objects.equals(this.startDate, other.startDate)) {
+            return false;
+        }
+        if (!Objects.equals(this.endDate, other.endDate)) {
+            return false;
+        }
+        if (!Objects.equals(this.advertData, other.advertData)) {
+            return false;
+        }
+        if (!Objects.equals(this.advertLinkData, other.advertLinkData)) {
+            return false;
+        }
+        if (!Objects.equals(this.advertCategories, other.advertCategories)) {
+            return false;
+        }
+        return true;
     }
 }

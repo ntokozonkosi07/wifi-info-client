@@ -4,18 +4,6 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Copyright (C) 2014 RynMag Management Systems. All rights reserved.
- *
- * This software contains confidential proprietary information belonging to
- * RynMag Management Systems. No part of this information may be used,
- * reproduced, or stored without prior written consent of RynMag Management
- * Systems.
- *
- * @author Zifa Mathebula <zifamathebula@gmail.com>
- *
- * @version 1.0 1 September, 2016
- */
 public enum AdvertType implements Serializable {
 
     STANDARD(1, "Standard Advert"),

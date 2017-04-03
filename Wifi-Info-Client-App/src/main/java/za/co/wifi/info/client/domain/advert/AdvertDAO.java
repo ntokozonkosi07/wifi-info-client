@@ -95,7 +95,7 @@ public class AdvertDAO implements Serializable {
         try {
             StringBuilder buff = new StringBuilder();
             buff.append("SELECT u FROM za.co.wifi.info.client.domain.advert.AdvertEntity u,"
-                    + "za.co.wifi.info.client.domain.advert.AdvertCategory c ");
+                    + "za.co.wifi.info.client.domain.advert.AdvertCategoryEntity c ");
             buff.append("WHERE u.adType =:advertType ");
             buff.append("AND u.advertRef = c.advertRef.advertRef ");
             buff.append("AND c.categoryRef.categoryRef =:categoryRef ");
@@ -116,7 +116,7 @@ public class AdvertDAO implements Serializable {
     public List<AdvertEntity> findAll(CategoryEntity category, List<AdvertType> advertTypes) throws DBOperationFailedException {
         try {
             StringBuilder buff = new StringBuilder();
-            buff.append("SELECT u FROM za.co.wifi.info.client.domain.advert.AdvertEntity u, za.co.wifi.info.client.domain.advert.AdvertCategory c ");
+            buff.append("SELECT u FROM za.co.wifi.info.client.domain.advert.AdvertEntity u, za.co.wifi.info.client.domain.advert.AdvertCategoryEntity c ");
             buff.append("WHERE u.advertRef = c.advertRef.advertRef ");
             buff.append("AND c.categoryRef.categoryRef =:categoryRef ");
             buff.append("AND u.adType IN (:advertTypes) ");

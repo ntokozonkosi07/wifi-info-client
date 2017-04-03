@@ -1,23 +1,12 @@
 package za.co.wifi.info.client.domain.category;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import za.co.wifi.info.client.domain.BaseEntity;
 
-/**
- * Copyright (C) 2014 RynMag Management Systems. All rights reserved.
- *
- * This software contains confidential proprietary information belonging to
- * RynMag Management Systems. No part of this information may be used,
- * reproduced, or stored without prior written consent of RynMag Management
- * Systems.
- *
- * @author Zifa Mathebula <zifamathebula@gmail.com>
- *
- * @version 1.0
- */
 @Entity(name = "l_category")
 public class CategoryEntity extends BaseEntity implements Serializable {
 
@@ -44,5 +33,34 @@ public class CategoryEntity extends BaseEntity implements Serializable {
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 23 * hash + Objects.hashCode(this.categoryRef);
+        hash = 23 * hash + Objects.hashCode(this.categoryName);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final CategoryEntity other = (CategoryEntity) obj;
+        if (!Objects.equals(this.categoryName, other.categoryName)) {
+            return false;
+        }
+        if (!Objects.equals(this.categoryRef, other.categoryRef)) {
+            return false;
+        }
+        return true;
     }
 }

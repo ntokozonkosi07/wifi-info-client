@@ -69,8 +69,7 @@ public class AdvertDownloadEvent {
     public AdvertDownloadEvent(@Value("${app.config.device.ref}") String defaultDeviceRef,
             GSMConnectionUtil connectionUtil, NodeRepository nodeRepository,
             NodeBannerRepository nodeBannerRepository, AdvertRepository advertRepository,
-            CategoryRepository categoryRepository, RemoteAdvertClient remoteAdvertClient,
-            ReportGenerator generator) {
+            CategoryRepository categoryRepository, RemoteAdvertClient remoteAdvertClient) {
         this.defaultDeviceRef = defaultDeviceRef;
         this.connectionUtil = connectionUtil;
         this.nodeRepository = nodeRepository;
@@ -78,7 +77,7 @@ public class AdvertDownloadEvent {
         this.advertRepository = advertRepository;
         this.categoryRepository = categoryRepository;
         this.remoteAdvertClient = remoteAdvertClient;
-        this.generator = generator;
+        this.generator = new ReportGenerator();
     }
 
     @Scheduled(fixedRate = SYNC_INTERVAL)
@@ -109,7 +108,7 @@ public class AdvertDownloadEvent {
 
             NodeEntity device = this.lookupDeviceRef();
 
-            boolean successfullyUpdatedConfig = device == null ? syncDeviceConfig(defaultDeviceRef) : syncDeviceConfig(device);
+            boolean successfullyUpdatedConfig = device == null ? syncDeviceConfig(defaultDeviceRef,device) : syncDeviceConfig(device);
             if (!successfullyUpdatedConfig) {
                 LOGGER.error("Failed to initialize device.....");
                 return;
@@ -267,7 +266,7 @@ public class AdvertDownloadEvent {
         }
     }
 
-    private boolean syncDeviceConfig(String deviceRef) {
+    private boolean syncDeviceConfig(String deviceRef, NodeEntity device) {
         LOGGER.info(new MessageFormat("Creating device configuration for  : {0}")
                 .format(new Object[]{deviceRef}));
 
@@ -278,7 +277,7 @@ public class AdvertDownloadEvent {
         }
 
         try {
-            NodeEntity device = new NodeEntity();
+            device = new NodeEntity();
             device.setMacAddress(nodeDTO.getMacAddress());
             device.setDeviceRef(nodeDTO.getDeviceRef());
             device.setNodeAddress(nodeDTO.getAddress());
@@ -335,7 +334,7 @@ public class AdvertDownloadEvent {
     private NodeDTO verifyDevice(String deviceRef) {
         try {
             LOGGER.info(new MessageFormat("Verifying device : {0}")
-                .format(new Object[]{deviceRef}));
+                    .format(new Object[]{deviceRef}));
 
             return remoteAdvertClient.verifyDevice(deviceRef);
         } catch (OperationFailedException ex) {

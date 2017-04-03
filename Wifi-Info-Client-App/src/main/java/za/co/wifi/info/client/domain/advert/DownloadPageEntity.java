@@ -1,6 +1,8 @@
 package za.co.wifi.info.client.domain.advert;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,18 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
-/**
- * Copyright (C) 2014 RynMag Management Systems. All rights reserved.
- *
- * This software contains confidential proprietary information belonging to
- * RynMag Management Systems. No part of this information may be used,
- * reproduced, or stored without prior written consent of RynMag Management
- * Systems.
- *
- * @author Zifa Mathebula <zifamathebula@gmail.com>
- *
- * @version 1.0
- */
 @Entity(name = "l_download_page")
 public class DownloadPageEntity implements Serializable {
 
@@ -50,5 +40,32 @@ public class DownloadPageEntity implements Serializable {
         this.downloadPageData = downloadPageData;
     }
 
-    
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 13 * hash + Objects.hashCode(this.downloadPageRef);
+        hash = 13 * hash + Arrays.hashCode(this.downloadPageData);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final DownloadPageEntity other = (DownloadPageEntity) obj;
+        if (!Objects.equals(this.downloadPageRef, other.downloadPageRef)) {
+            return false;
+        }
+        if (!Arrays.equals(this.downloadPageData, other.downloadPageData)) {
+            return false;
+        }
+        return true;
+    }
 }

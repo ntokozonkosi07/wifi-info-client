@@ -1,16 +1,17 @@
-package za.co.wifi.info.config;
+package za.co.wifi.info.client.config;
 
 import java.util.Properties;
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import org.apache.commons.dbcp.BasicDataSource;
+import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
@@ -24,12 +25,6 @@ public class DatabaseConfiguration {
     @Autowired
     private Environment environment;
 
-    @Autowired
-    private DataSource dataSource;
-
-    @Autowired
-    private LocalContainerEntityManagerFactoryBean entityManagerFactory;
-
     /**
      * DataSource definition for database connection. Settings are read from the
      * application.properties file (using the environment object).
@@ -38,8 +33,7 @@ public class DatabaseConfiguration {
      */
     @Bean
     public DataSource dataSource() {
-
-        DriverManagerDataSource configuredDatasource = new DriverManagerDataSource();
+        BasicDataSource configuredDatasource = new BasicDataSource();
         configuredDatasource.setDriverClassName(environment.getProperty("spring.database.driverClassName"));
         configuredDatasource.setUrl(environment.getProperty("spring.datasource.url"));
         configuredDatasource.setUsername(environment.getProperty("spring.datasource.username"));
@@ -51,42 +45,28 @@ public class DatabaseConfiguration {
     /**
      * Declare the JPA entity manager factory.
      *
+     * @param dataSource
      * @return LocalContainerEntityManagerFactoryBean
      */
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
         LocalContainerEntityManagerFactoryBean configuredEntityManagerFactory
                 = new LocalContainerEntityManagerFactoryBean();
 
-        configuredEntityManagerFactory.setDataSource(dataSource);
-
-        // Classpath scanning of @Component, @Service, etc annotated class
-        configuredEntityManagerFactory.setPackagesToScan(
-                environment.getProperty("entitymanager.packagesToScan"));
-
-        // Vendor adapter
-        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        configuredEntityManagerFactory.setJpaVendorAdapter(vendorAdapter);
+        configuredEntityManagerFactory.setPackagesToScan(environment.getProperty("entitymanager.packagesToScan"));
+        configuredEntityManagerFactory.setPersistenceProvider(new HibernatePersistenceProvider());
 
         // Hibernate properties
         Properties additionalProperties = new Properties();
-        additionalProperties.put(
-                "hibernate.dialect",
+        additionalProperties.put("hibernate.dialect",
                 environment.getProperty("spring.jpa.properties.hibernate.dialect"));
-        additionalProperties.put(
-                "hibernate.show_sql",
+        additionalProperties.put("hibernate.show_sql",
                 environment.getProperty("spring.jpa.show-sql"));
-        additionalProperties.put(
-                "hibernate.hbm2ddl.auto",
-                environment.getProperty("spring.jpa.generate-ddl"));
-        additionalProperties.put(
-                "spring.jpa.generate-ddl",
+        additionalProperties.put("hibernate.hbm2ddl.auto",
                 environment.getProperty("spring.jpa.hibernate.ddl-auto"));
-        additionalProperties.put(
-                "spring.jpa.hibernate.naming-strategy",
-                environment.getProperty("spring.jpa.hibernate.naming-strategy"));
 
         configuredEntityManagerFactory.setJpaProperties(additionalProperties);
+        configuredEntityManagerFactory.setDataSource(dataSource);
 
         return configuredEntityManagerFactory;
     }
@@ -94,16 +74,13 @@ public class DatabaseConfiguration {
     /**
      * Declare the transaction manager.
      *
+     * @param emf
      * @return JpaTransactionManager
      */
     @Bean
-    public JpaTransactionManager transactionManager() {
-        JpaTransactionManager transactionManager
-                = new JpaTransactionManager();
-
-        transactionManager.setEntityManagerFactory(
-                entityManagerFactory.getObject());
-
+    public JpaTransactionManager transactionManager(EntityManagerFactory emf) {
+        JpaTransactionManager transactionManager = new JpaTransactionManager();
+        transactionManager.setEntityManagerFactory(emf);
         return transactionManager;
     }
 
