@@ -31,13 +31,14 @@ public class NodeBannerRepository implements Serializable {
     private EntityManager em;
 
     public NodeBannerEntity saveNodeBanner(NodeBannerEntity nodeBanner) throws DBOperationFailedException {
-        return null;
+        NodeBannerDAO NodeBannerDAO = new NodeBannerDAO(em);
+        return NodeBannerDAO.save(nodeBanner);
     }
 
     public NodeBannerEntity findActiveNodeBanner() throws DBOperationFailedException {
         try {
             StringBuilder buff = new StringBuilder();
-            buff.append("SELECT n FROM za.co.rynmag.wifiinfo.domain.entities.NodeBanner n ");
+            buff.append("SELECT n FROM za.co.wifi.info.client.domain.node.banner.NodeBannerEntity n ");
             buff.append("WHERE :currentDate BETWEEN n.startDate AND  n.endDate");
 
             Query retval = em.createQuery(buff.toString());

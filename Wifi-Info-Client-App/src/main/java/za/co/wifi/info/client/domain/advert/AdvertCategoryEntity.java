@@ -11,22 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
-import za.co.wifi.info.client.domain.advert.AdvertEntity;
 import za.co.wifi.info.client.domain.BaseEntity;
 import za.co.wifi.info.client.domain.category.CategoryEntity;
 
-/**
- * Copyright (C) 2014 RynMag Management Systems. All rights reserved.
- *
- * This software contains confidential proprietary information belonging to
- * RynMag Management Systems. No part of this information may be used,
- * reproduced, or stored without prior written consent of RynMag Management
- * Systems.
- *
- * @author Zifa Mathebula <zifamathebula@gmail.com>
- *
- * @version 1.0
- */
 @Entity(name = "l_advert_category")
 public class AdvertCategoryEntity extends BaseEntity implements Serializable {
 

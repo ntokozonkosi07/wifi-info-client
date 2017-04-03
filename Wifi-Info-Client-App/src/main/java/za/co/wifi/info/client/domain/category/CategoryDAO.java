@@ -89,7 +89,7 @@ public class CategoryDAO implements Serializable {
             Query retval = null;
             StringBuilder buff = new StringBuilder();
 
-            buff.append("SELECT u FROM za.co.rynmag.wifiinfo.domain.entities.Category u");
+            buff.append("SELECT u FROM za.co.wifi.info.client.domain.category.CategoryEntity u");
 
             boolean first = true;
             int index = 1;

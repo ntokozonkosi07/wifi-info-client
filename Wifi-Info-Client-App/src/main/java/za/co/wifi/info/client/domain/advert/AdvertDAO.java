@@ -4,23 +4,12 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import za.co.wifi.info.client.domain.DBOperationFailedException;
 import za.co.wifi.info.client.domain.category.CategoryEntity;
 import za.co.wifi.info.util.Validator;
 
-/**
- * Copyright (C) 2014 RynMag Management Systems. All rights reserved.
- *
- * This software contains confidential proprietary information belonging to
- * RynMag Management Systems. No part of this information may be used,
- * reproduced, or stored without prior written consent of RynMag Management
- * Systems.
- *
- * @author Zifa Mathebula <zifamathebula@gmail.com>
- *
- * @version 1.0
- */
 public class AdvertDAO implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -48,12 +37,12 @@ public class AdvertDAO implements Serializable {
         }
     }
 
-    public AdvertEntity find(AdvertEntity advert) throws DBOperationFailedException {
+    public AdvertEntity find(AdvertEntity advert) {
         try {
             Query retval = buildSearch(advert);
             return (AdvertEntity) retval.getSingleResult();
-        } catch (Exception ex) {
-            throw new DBOperationFailedException(ex.getLocalizedMessage(), ex);
+        } catch (DBOperationFailedException | NoResultException ex) {
+            return null;
         }
     }
 
@@ -66,10 +55,10 @@ public class AdvertDAO implements Serializable {
         }
     }
 
-    public List<AdvertEntity> findAll(List<za.co.wifi.info.client.domain.advert.AdvertType> advertTypes) throws DBOperationFailedException {
+    public List<AdvertEntity> findAll(List<AdvertType> advertTypes) throws DBOperationFailedException {
         try {
             StringBuilder buff = new StringBuilder();
-            buff.append("SELECT u FROM za.co.rynmag.wifiinfo.domain.entities.Advert u ");
+            buff.append("SELECT u FROM za.co.wifi.info.client.domain.advert.AdvertEntity u ");
             buff.append("WHERE u.adType IN (:advertTypes) ");
             buff.append("AND :currentDate BETWEEN u.startDate AND u.endDate ");
             buff.append("ORDER BY u.advertRef ASC");
@@ -84,10 +73,50 @@ public class AdvertDAO implements Serializable {
         }
     }
 
-    public List<AdvertEntity> findAll(CategoryEntity category, List<za.co.wifi.info.client.domain.advert.AdvertType> advertTypes) throws DBOperationFailedException {
+    public List<AdvertEntity> findAll(AdvertType advertType) throws DBOperationFailedException {
         try {
             StringBuilder buff = new StringBuilder();
-            buff.append("SELECT u FROM za.co.rynmag.wifiinfo.domain.entities.Advert u, za.co.rynmag.wifiinfo.domain.entities.AdvertCategory c ");
+            buff.append("SELECT u FROM za.co.wifi.info.client.domain.advert.AdvertEntity u ");
+            buff.append("WHERE u.adType =:advertType ");
+            buff.append("AND :currentDate BETWEEN u.startDate AND u.endDate ");
+            buff.append("ORDER BY u.advertRef ASC");
+
+            Query retval = em.createQuery(buff.toString());
+            retval.setParameter("advertType", advertType);
+            retval.setParameter("currentDate", new Date());
+
+            return retval.getResultList();
+        } catch (Exception ex) {
+            throw new DBOperationFailedException(ex.getLocalizedMessage(), ex);
+        }
+    }
+    
+    public List<AdvertEntity> findAll(CategoryEntity category, AdvertType advertType) throws DBOperationFailedException {
+        try {
+            StringBuilder buff = new StringBuilder();
+            buff.append("SELECT u FROM za.co.wifi.info.client.domain.advert.AdvertEntity u,"
+                    + "za.co.wifi.info.client.domain.advert.AdvertCategory c ");
+            buff.append("WHERE u.adType =:advertType ");
+            buff.append("AND u.advertRef = c.advertRef.advertRef ");
+            buff.append("AND c.categoryRef.categoryRef =:categoryRef ");
+            buff.append("AND :currentDate BETWEEN u.startDate AND u.endDate ");
+            buff.append("ORDER BY u.advertRef ASC");
+
+            Query retval = em.createQuery(buff.toString());
+            retval.setParameter("advertType", advertType);
+            retval.setParameter("categoryRef", category.getCategoryRef());
+            retval.setParameter("currentDate", new Date());
+
+            return retval.getResultList();
+        } catch (Exception ex) {
+            throw new DBOperationFailedException(ex.getLocalizedMessage(), ex);
+        }
+    }
+    
+    public List<AdvertEntity> findAll(CategoryEntity category, List<AdvertType> advertTypes) throws DBOperationFailedException {
+        try {
+            StringBuilder buff = new StringBuilder();
+            buff.append("SELECT u FROM za.co.wifi.info.client.domain.advert.AdvertEntity u, za.co.wifi.info.client.domain.advert.AdvertCategory c ");
             buff.append("WHERE u.advertRef = c.advertRef.advertRef ");
             buff.append("AND c.categoryRef.categoryRef =:categoryRef ");
             buff.append("AND u.adType IN (:advertTypes) ");
@@ -108,7 +137,7 @@ public class AdvertDAO implements Serializable {
     public DownloadPageEntity findDownloadPage() {
         try {
             StringBuilder buff = new StringBuilder();
-            buff.append("SELECT d FROM za.co.rynmag.wifiinfo.domain.entities.DownloadPage d ");
+            buff.append("SELECT d FROM za.co.wifi.info.client.domain.advert.DownloadPageEntity d ");
             buff.append("WHERE d.downloadPageRef = 1 ");
 
             Query retval = em.createQuery(buff.toString());
@@ -136,7 +165,7 @@ public class AdvertDAO implements Serializable {
             Query retval = null;
             StringBuilder buff = new StringBuilder();
 
-            buff.append("SELECT u FROM za.co.rynmag.wifiinfo.domain.entities.Advert u");
+            buff.append("SELECT u FROM za.co.wifi.info.client.domain.advert.AdvertEntity u");
 
             boolean first = true;
             int index = 1;

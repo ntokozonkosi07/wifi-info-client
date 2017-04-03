@@ -53,7 +53,7 @@ public class NodeDAO implements Serializable {
             Query retval = buildSearch(node);
             return (NodeEntity) retval.getSingleResult();
         } catch (Exception ex) {
-            throw new DBOperationFailedException("Node not found");
+            throw new DBOperationFailedException("NodeEntity not found");
         }
     }
 
@@ -86,7 +86,7 @@ public class NodeDAO implements Serializable {
             Query retval = null;
             StringBuilder buff = new StringBuilder();
 
-            buff.append("SELECT u FROM za.co.rynmag.wifiinfo.domain.entities.Node u");
+            buff.append("SELECT u FROM za.co.wifi.info.client.domain.node.NodeEntity u");
 
             boolean first = true;
             int index = 1;
