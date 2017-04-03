@@ -32,7 +32,7 @@ public class AdvertSyncEvent extends AbstractAdvertEvent {
         }
     }
 
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = SYNC_INTERVAL)
     public void syncDeviceBannerLinks() {
         LOGGER.info("Syncing banner links");
 
