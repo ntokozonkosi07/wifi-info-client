@@ -7,7 +7,7 @@ import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import za.co.wifi.info.client.web.model.Advert;
 import za.co.wifi.info.client.web.model.BannerLink;
@@ -24,6 +24,7 @@ import za.co.wifi.info.client.domain.node.banner.NodeBannerEntity;
 import za.co.wifi.info.client.domain.node.banner.NodeBannerRepository;
 
 @Service
+@Scope("singleton")
 public class AdvertService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AdvertService.class.getName());
