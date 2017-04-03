@@ -54,6 +54,10 @@ public class NodeEntity extends BaseEntity implements Serializable {
         return nodeRef;
     }
 
+    public void setNodeRef(Long nodeRef) {
+        this.nodeRef = nodeRef;
+    }
+
     public String getMacAddress() {
         return macAddress;
     }

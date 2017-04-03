@@ -13,6 +13,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -62,11 +63,15 @@ public class AdvertDownloadEvent {
 
     private final ReportGenerator generator;
 
+    private final String defaultDeviceRef;
+
     @Autowired
-    public AdvertDownloadEvent(GSMConnectionUtil connectionUtil,
-            NodeRepository nodeRepository, NodeBannerRepository nodeBannerRepository,
-            AdvertRepository advertRepository, CategoryRepository categoryRepository,
-            RemoteAdvertClient remoteAdvertClient, ReportGenerator generator) {
+    public AdvertDownloadEvent(@Value("${app.config.device.ref}") String defaultDeviceRef,
+            GSMConnectionUtil connectionUtil, NodeRepository nodeRepository,
+            NodeBannerRepository nodeBannerRepository, AdvertRepository advertRepository,
+            CategoryRepository categoryRepository, RemoteAdvertClient remoteAdvertClient,
+            ReportGenerator generator) {
+        this.defaultDeviceRef = defaultDeviceRef;
         this.connectionUtil = connectionUtil;
         this.nodeRepository = nodeRepository;
         this.nodeBannerRepository = nodeBannerRepository;
@@ -103,12 +108,10 @@ public class AdvertDownloadEvent {
             LOGGER.info("Connected.....");
 
             NodeEntity device = this.lookupDeviceRef();
-            if (device == null) {
-                return;
-            }
 
-            boolean successfullyUpdatedConfig = syncDeviceConfig(device);
+            boolean successfullyUpdatedConfig = device == null ? syncDeviceConfig(defaultDeviceRef) : syncDeviceConfig(device);
             if (!successfullyUpdatedConfig) {
+                LOGGER.error("Failed to initialize device.....");
                 return;
             }
 
@@ -264,6 +267,40 @@ public class AdvertDownloadEvent {
         }
     }
 
+    private boolean syncDeviceConfig(String deviceRef) {
+        LOGGER.info("Creating Device Configuration");
+
+        NodeDTO nodeDTO = verifyDevice(deviceRef);
+
+        if (nodeDTO == null) {
+            return false;
+        }
+
+        try {
+            LOGGER.info("Creating device configuration");
+
+            NodeEntity device = new NodeEntity();
+            device.setMacAddress(nodeDTO.getMacAddress());
+            device.setDeviceRef(nodeDTO.getDeviceRef());
+            device.setNodeAddress(nodeDTO.getAddress());
+            device.setNodeName(nodeDTO.getName());
+            device.setCategoryRef(new Long(nodeDTO.getNodeCategory()));
+            device.setCategoryName(nodeDTO.getNodeCategoryName());
+            device.setLastModifiedBy(1L);
+            device.setLastModifiedDate(new Date());
+            
+            nodeRepository.save(device);
+
+            LOGGER.info("Succesfully created device configuration");
+
+            return true;
+        } catch (DBOperationFailedException ex) {
+            LOGGER.error("Failed to create device configuration", ex);
+        }
+
+        return false;
+    }
+
     private boolean syncDeviceConfig(NodeEntity device) {
         LOGGER.info("Updating Device Configuration");
 
@@ -299,7 +336,7 @@ public class AdvertDownloadEvent {
 
     private NodeDTO verifyDevice(String deviceRef) {
         try {
-            LOGGER.info("Checking for device updates");
+            LOGGER.info("Verifying device...");
 
             return remoteAdvertClient.verifyDevice(deviceRef);
         } catch (OperationFailedException ex) {
