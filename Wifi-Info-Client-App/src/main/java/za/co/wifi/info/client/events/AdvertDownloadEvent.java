@@ -194,7 +194,7 @@ public class AdvertDownloadEvent {
                 existingAdvert = advertRepository.find(lookupAdvert);
 
                 if (existingAdvert == null) {
-                    LOGGER.debug(new MessageFormat("Downlaoding advert : {0}")
+                    LOGGER.info(new MessageFormat("Downlaoding advert : {0}")
                             .format(new Object[]{advertRefNo}));
 
                     AdvertDTO downloadedAdvert = remoteAdvertClient.lookupAdvert(advertRefNo);
@@ -268,7 +268,8 @@ public class AdvertDownloadEvent {
     }
 
     private boolean syncDeviceConfig(String deviceRef) {
-        LOGGER.info("Creating Device Configuration");
+        LOGGER.info(new MessageFormat("Creating device configuration for  : {0}")
+                .format(new Object[]{deviceRef}));
 
         NodeDTO nodeDTO = verifyDevice(deviceRef);
 
@@ -277,8 +278,6 @@ public class AdvertDownloadEvent {
         }
 
         try {
-            LOGGER.info("Creating device configuration");
-
             NodeEntity device = new NodeEntity();
             device.setMacAddress(nodeDTO.getMacAddress());
             device.setDeviceRef(nodeDTO.getDeviceRef());
@@ -288,7 +287,7 @@ public class AdvertDownloadEvent {
             device.setCategoryName(nodeDTO.getNodeCategoryName());
             device.setLastModifiedBy(1L);
             device.setLastModifiedDate(new Date());
-            
+
             nodeRepository.save(device);
 
             LOGGER.info("Succesfully created device configuration");
@@ -302,7 +301,8 @@ public class AdvertDownloadEvent {
     }
 
     private boolean syncDeviceConfig(NodeEntity device) {
-        LOGGER.info("Updating Device Configuration");
+        LOGGER.info(new MessageFormat("Updating device configuration for  : {0}")
+                .format(new Object[]{device.getDeviceRef()}));
 
         NodeDTO nodeDTO = verifyDevice(device.getDeviceRef());
 
@@ -311,8 +311,6 @@ public class AdvertDownloadEvent {
         }
 
         try {
-            LOGGER.info("Updating device configuration");
-
             device.setLastModifiedBy(1L);
             device.setLastModifiedDate(new Date());
             device.setMacAddress(nodeDTO.getMacAddress());
@@ -336,7 +334,8 @@ public class AdvertDownloadEvent {
 
     private NodeDTO verifyDevice(String deviceRef) {
         try {
-            LOGGER.info("Verifying device...");
+            LOGGER.info(new MessageFormat("Verifying device : {0}")
+                .format(new Object[]{deviceRef}));
 
             return remoteAdvertClient.verifyDevice(deviceRef);
         } catch (OperationFailedException ex) {
