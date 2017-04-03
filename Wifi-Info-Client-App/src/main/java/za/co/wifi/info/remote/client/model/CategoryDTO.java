@@ -13,10 +13,10 @@ public class CategoryDTO implements Serializable {
     private final static long serialVersionUID = 1L;
 
     @JsonProperty("createdBy")
-    private Integer createdBy;
+    private Long createdBy;
 
     @JsonProperty("createdDate")
-    private Integer createdDate;
+    private Long createdDate;
 
     @JsonProperty("lastModifiedBy")
     private Object lastModifiedBy;
@@ -25,7 +25,7 @@ public class CategoryDTO implements Serializable {
     private Object lastModifiedDate;
 
     @JsonProperty("categoryRef")
-    private Integer categoryRef;
+    private Long categoryRef;
 
     @JsonProperty("categoryOwner")
     private Object categoryOwner;
@@ -54,7 +54,7 @@ public class CategoryDTO implements Serializable {
      * @param allSubCategories
      * @param categoryOwner
      */
-    public CategoryDTO(Integer createdBy, Integer createdDate, Object lastModifiedBy, Object lastModifiedDate, Integer categoryRef, Object categoryOwner, String categoryName, Object allSubCategories) {
+    public CategoryDTO(Long createdBy, Long createdDate, Object lastModifiedBy, Object lastModifiedDate, Long categoryRef, Object categoryOwner, String categoryName, Object allSubCategories) {
         super();
         this.createdBy = createdBy;
         this.createdDate = createdDate;
@@ -67,22 +67,22 @@ public class CategoryDTO implements Serializable {
     }
 
     @JsonProperty("createdBy")
-    public Integer getCreatedBy() {
+    public Long getCreatedBy() {
         return createdBy;
     }
 
     @JsonProperty("createdBy")
-    public void setCreatedBy(Integer createdBy) {
+    public void setCreatedBy(Long createdBy) {
         this.createdBy = createdBy;
     }
 
     @JsonProperty("createdDate")
-    public Integer getCreatedDate() {
+    public Long getCreatedDate() {
         return createdDate;
     }
 
     @JsonProperty("createdDate")
-    public void setCreatedDate(Integer createdDate) {
+    public void setCreatedDate(Long createdDate) {
         this.createdDate = createdDate;
     }
 
@@ -107,12 +107,12 @@ public class CategoryDTO implements Serializable {
     }
 
     @JsonProperty("categoryRef")
-    public Integer getCategoryRef() {
+    public Long getCategoryRef() {
         return categoryRef;
     }
 
     @JsonProperty("categoryRef")
-    public void setCategoryRef(Integer categoryRef) {
+    public void setCategoryRef(Long categoryRef) {
         this.categoryRef = categoryRef;
     }
 
