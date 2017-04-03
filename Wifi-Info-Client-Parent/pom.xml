@@ -50,7 +50,7 @@
         <version.liquibase>3.5.3</version.liquibase> 
         <version.commons.lang>3.5</version.commons.lang> 
         <version.commons.collections>3.2.1</version.commons.collections> 
-        <version.infinispan>9.0.0.CR4</version.infinispan>
+        <version.ehcache>2.6.11</version.ehcache>
         <version.jasper>5.2.0</version.jasper> 
         <version.lowagie>2.1.7</version.lowagie>
         <version.pdf-generator>1.0</version.pdf-generator>
@@ -89,7 +89,13 @@
                 <artifactId>commons-collections</artifactId>
                 <version>${version.commons.collections}</version>
             </dependency>
-                                
+                    
+            <dependency>
+                <groupId>net.sf.ehcache</groupId>
+                <artifactId>ehcache-core</artifactId>
+                <version>${version.ehcache}</version>
+            </dependency>
+                        
             <dependency>
                 <groupId>net.sf.jasperreports</groupId>
                 <artifactId>jasperreports</artifactId>
