@@ -32,6 +32,12 @@
             <artifactId>commons-lang3</artifactId>
         </dependency>
             
+        <dependency>
+            <groupId>za.co.wifi.info</groupId>
+            <artifactId>wifi-info-pdf-generator</artifactId>
+            <version>1.0</version>
+        </dependency>
+        
         <!-- Spring Boot dependencies -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

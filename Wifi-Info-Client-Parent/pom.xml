@@ -11,7 +11,7 @@
     <artifactId>wifi-info-client-parent</artifactId>
     <packaging>pom</packaging>
 
-    <name>Wifi Info Client ${version} Parent</name>
+    <name>Wifi-Info Client ${version} Parent</name>
 
     <description>
         Wifi Info Client Parent Project : Provides single point of control for project 
@@ -50,7 +50,9 @@
         <version.liquibase>3.5.3</version.liquibase> 
         <version.commons.lang>3.5</version.commons.lang> 
         <version.commons.collections>3.2.1</version.commons.collections> 
-        
+        <version.jasper>5.2.0</version.jasper> 
+        <version.lowagie>2.1.7</version.lowagie>
+        <version.pdf-generator>1.0</version.pdf-generator>
     </properties>
 
     <dependencyManagement>
@@ -85,6 +87,24 @@
                 <groupId>commons-collections</groupId>
                 <artifactId>commons-collections</artifactId>
                 <version>${version.commons.collections}</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>net.sf.jasperreports</groupId>
+                <artifactId>jasperreports</artifactId>
+                <version>${version.jasper}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lowagie</groupId>
+                <artifactId>itext</artifactId>
+                <version>${version.lowagie}</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>za.co.wifi.info</groupId>
+                <artifactId>wifi-info-pdf-generator</artifactId>
+                <version>${version.pdf-generator}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
