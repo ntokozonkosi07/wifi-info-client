@@ -13,10 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
-import za.co.wifi.info.client.web.model.Advert;
-import za.co.wifi.info.client.web.model.BannerLink;
-import za.co.wifi.info.client.web.model.Category;
-import za.co.wifi.info.client.web.model.File;
 import za.co.wifi.info.client.domain.DBOperationFailedException;
 import za.co.wifi.info.client.domain.advert.AdvertEntity;
 import za.co.wifi.info.client.domain.advert.AdvertRepository;
@@ -26,6 +22,10 @@ import za.co.wifi.info.client.domain.category.CategoryEntity;
 import za.co.wifi.info.client.domain.category.CategoryRepository;
 import za.co.wifi.info.client.domain.node.banner.NodeBannerEntity;
 import za.co.wifi.info.client.domain.node.banner.NodeBannerRepository;
+import za.co.wifi.info.client.web.model.Advert;
+import za.co.wifi.info.client.web.model.BannerLink;
+import za.co.wifi.info.client.web.model.Category;
+import za.co.wifi.info.client.web.model.File;
 
 @Service
 @Scope("singleton")
@@ -62,14 +62,15 @@ public class AdvertService {
     @Cacheable(cacheNames = "page_download")
     public File getDownloadPage() {
         LOGGER.info("Retrieving download page");
-        
+
         if (downloadPage != null) {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            
+
+            File generatedDownloadPage = new File();
             generatedDownloadPage.setAdvertBinaryData(Base64.getEncoder().encodeToString(downloadPage.getDownloadPageData()));
             generatedDownloadPage.setFileSize(downloadPage.getDownloadPageData().length);
             generatedDownloadPage.setFileName(new MessageFormat("wifi-info-{0}.pdf")
-                .format(new Object[]{simpleDateFormat.format(new Date())}));
+                    .format(new Object[]{simpleDateFormat.format(new Date())}));
             generatedDownloadPage.setFileType("application/pdf");
 
             return generatedDownloadPage;
@@ -81,7 +82,7 @@ public class AdvertService {
     @Cacheable(cacheNames = "banners")
     public List<BannerLink> getBannerLinkAdverts() {
         LOGGER.info("Retrieving banner links");
-        
+
         return bannerLinkAdverts;
     }
 
@@ -92,7 +93,7 @@ public class AdvertService {
     @Cacheable(cacheNames = "adverts")
     public List<Category> getCategoryAdverts() {
         LOGGER.info("Retrieving category adverts");
-        
+
         return categoryAdverts;
     }
 
