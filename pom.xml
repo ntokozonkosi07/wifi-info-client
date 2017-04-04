@@ -7,7 +7,7 @@
     <version>1.0</version>
     <packaging>pom</packaging>
         
-    <name>Wifi-Info Client ${version} TLP</name>
+    <name>Wifi-Info Client ${project.version} TLP</name>
   
     <description>
         Wifi-Info Client Top Level Project: Provides single point of control for 

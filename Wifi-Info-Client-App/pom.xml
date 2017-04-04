@@ -11,7 +11,7 @@
 
     <artifactId>wifi-info-client-app</artifactId>
 
-    <name>Wifi Info Client 1.0 App</name>
+    <name>Wifi Info Client ${project.version} App</name>
 
     <dependencies>
         <!-- DB Drivers -->
@@ -41,7 +41,7 @@
             <groupId>net.sf.ehcache</groupId>
             <artifactId>ehcache-core</artifactId>
         </dependency>
-                                
+  
         <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports</artifactId>
