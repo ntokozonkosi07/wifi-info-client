@@ -1,12 +1,16 @@
 package za.co.wifi.info.client.service;
 
+import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
 import java.util.Base64;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import za.co.wifi.info.client.web.model.Advert;
@@ -48,7 +52,6 @@ public class AdvertService {
         this.nodeBannerRepository = nodeBannerRepository;
     }
 
-    
     @PostConstruct
     private void init() {
         downloadPage = this.generateDownloadPage();
@@ -56,14 +59,18 @@ public class AdvertService {
         categoryAdverts = this.generateCategoryAdverts();
     }
 
+    @Cacheable(cacheNames = "page_download")
     public File getDownloadPage() {
+        LOGGER.info("Retrieving download page");
+        
         if (downloadPage != null) {
-            File generatedDownloadPage = new File();
-
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            
             generatedDownloadPage.setAdvertBinaryData(Base64.getEncoder().encodeToString(downloadPage.getDownloadPageData()));
             generatedDownloadPage.setFileSize(downloadPage.getDownloadPageData().length);
-            generatedDownloadPage.setFileName("wifiinfo.pdf");
-            generatedDownloadPage.setFileType("application/binary");
+            generatedDownloadPage.setFileName(new MessageFormat("wifi-info-{0}.pdf")
+                .format(new Object[]{simpleDateFormat.format(new Date())}));
+            generatedDownloadPage.setFileType("application/pdf");
 
             return generatedDownloadPage;
         }
@@ -71,7 +78,10 @@ public class AdvertService {
         return null;
     }
 
+    @Cacheable(cacheNames = "banners")
     public List<BannerLink> getBannerLinkAdverts() {
+        LOGGER.info("Retrieving banner links");
+        
         return bannerLinkAdverts;
     }
 
@@ -79,7 +89,10 @@ public class AdvertService {
         this.bannerLinkAdverts = bannerLinkAdverts;
     }
 
+    @Cacheable(cacheNames = "adverts")
     public List<Category> getCategoryAdverts() {
+        LOGGER.info("Retrieving category adverts");
+        
         return categoryAdverts;
     }
 
