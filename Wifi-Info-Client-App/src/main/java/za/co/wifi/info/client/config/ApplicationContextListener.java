@@ -1,13 +1,11 @@
 package za.co.wifi.info.client.config;
 
-import java.util.Date;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import java.text.MessageFormat;
+import java.text.NumberFormat;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,21 +15,33 @@ public class ApplicationContextListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        LOGGER.debug("");
-        LOGGER.debug("============================================");
-        LOGGER.debug("===      Starting Wifi-Info Client       ===");
-        LOGGER.debug("Timestamp : {0}", new Date().toString());
-        LOGGER.debug("============================================");
-        LOGGER.debug("");
+        Runtime runtime = Runtime.getRuntime();
+        final NumberFormat numberFormat = NumberFormat.getInstance();
+        final long maxMemory = runtime.maxMemory();
+        final long allocatedMemory = runtime.totalMemory();
+        final long freeMemory = runtime.freeMemory();
+        final long mb = 1024 * 1024;
+
+        LOGGER.info("============================================");
+        LOGGER.info("===       Starting Wifi-Info Client      ===");
+        LOGGER.info("============================================");
+        LOGGER.info("===              Memory Info             ===");
+        LOGGER.info("============================================");
+        LOGGER.info(new MessageFormat("Free Memory: {0} MB")
+                .format(new Object[]{numberFormat.format(freeMemory / mb)}));
+        LOGGER.info(new MessageFormat("Allocated Memory: {0} MB")
+                .format(new Object[]{numberFormat.format(allocatedMemory / mb)}));
+        LOGGER.info(new MessageFormat("Max Memory: {0} MB")
+                .format(new Object[]{numberFormat.format(maxMemory / mb)}));
+        LOGGER.info(new MessageFormat("Total free Memory: {0} MB")
+                .format(new Object[]{numberFormat.format((freeMemory + (maxMemory - allocatedMemory)) / mb)}));
+        LOGGER.info("============================================");
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        LOGGER.debug("");
-        LOGGER.debug("============================================");
-        LOGGER.debug("===     Shutting down Wifi-Info Client   ===");
-        LOGGER.debug("Timestamp : {0}", new Date().toString());
-        LOGGER.debug("============================================");
-        LOGGER.debug("");
+        LOGGER.info("============================================");
+        LOGGER.info("===     Shutting down Wifi-Info Client   ===");
+        LOGGER.info("============================================");
     }
 }
