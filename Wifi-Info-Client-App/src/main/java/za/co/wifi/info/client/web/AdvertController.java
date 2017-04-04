@@ -1,13 +1,18 @@
 package za.co.wifi.info.client.web;
 
+import java.util.Base64;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,7 +36,7 @@ public class AdvertController {
 
     @ResponseBody
     @RequestMapping(path = "/page/download", method = RequestMethod.GET)
-    public ResponseEntity<byte[]> generateDownloadPage() {
+    public ResponseEntity generateDownloadPage() {
         LOGGER.info("Calling service - page download");
 
         try {
@@ -41,6 +46,29 @@ public class AdvertController {
             }
 
             return getCreatedResponse(downloadPage);
+        } catch (Exception ex) {
+            LOGGER.error("Unexpected error occurred calling service - page_download", ex);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping(path = "/page/download/file", method = RequestMethod.GET)
+    public ResponseEntity<byte[]> generateDownloadPageFile() {
+        LOGGER.info("Calling service - page download file");
+
+        try {
+            File downloadPage = advertService.getDownloadPage();
+            if (downloadPage == null) {
+                return ResponseEntity.noContent().build();
+            } else {
+                HttpHeaders header = new HttpHeaders();
+                header.setContentType(new MediaType("application", "pdf"));
+                header.set("Content-Disposition", "inline; filename=" + downloadPage.getFileName());
+                header.setContentLength(downloadPage.getFileSize());
+
+                return new ResponseEntity<>(Base64.getDecoder().decode(downloadPage.getAdvertBinaryData()), header, HttpStatus.OK);
+            }
         } catch (Exception ex) {
             LOGGER.error("Unexpected error occurred calling service - page_download", ex);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -82,6 +110,13 @@ public class AdvertController {
     }
 
     private static ResponseEntity getCreatedResponse(final Object entity) {
-        return new ResponseEntity(entity, HttpStatus.CREATED);
+        MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+        headers.add("Access-Control-Allow-Origin", "*");
+        headers.add("Access-Control-Allow-Headers", "Origin, Accept, x-auth-token, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
+        headers.add("Access-Control-Allow-Credentials", "true");
+        headers.add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+        headers.add("Access-Control-Max-Age", "1209600");
+
+        return new ResponseEntity(entity, headers, HttpStatus.CREATED);
     }
 }

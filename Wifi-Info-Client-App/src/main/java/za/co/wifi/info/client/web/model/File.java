@@ -53,10 +53,10 @@ public class File implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 67 * hash + Objects.hashCode(this.fileName);
-        hash = 67 * hash + Objects.hashCode(this.fileType);
-        hash = 67 * hash + (int) (this.fileSize ^ (this.fileSize >>> 32));
+        int hash = 7;
+        hash = 37 * hash + Objects.hashCode(this.fileName);
+        hash = 37 * hash + Objects.hashCode(this.fileType);
+        hash = 37 * hash + (int) (this.fileSize ^ (this.fileSize >>> 32));
         return hash;
     }
 
@@ -72,9 +72,6 @@ public class File implements Serializable {
             return false;
         }
         final File other = (File) obj;
-        if (this.fileSize != other.fileSize) {
-            return false;
-        }
         if (!Objects.equals(this.fileName, other.fileName)) {
             return false;
         }
