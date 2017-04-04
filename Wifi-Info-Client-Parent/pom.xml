@@ -11,7 +11,7 @@
     <artifactId>wifi-info-client-parent</artifactId>
     <packaging>pom</packaging>
 
-    <name>Wifi-Info Client ${version} Parent</name>
+    <name>Wifi-Info Client ${project.version} Parent</name>
 
     <description>
         Wifi Info Client Parent Project : Provides single point of control for project 
