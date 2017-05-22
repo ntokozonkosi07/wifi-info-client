@@ -1,4 +1,4 @@
-package za.co.wifi.info.client.events;
+package za.co.wifi.info.client.service;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -14,8 +14,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import za.co.rynmag.wifiinfo.pdf.generator.ReportGenerator;
 import za.co.rynmag.wifiinfo.pdf.generator.ReportGeneratorException;
@@ -40,12 +40,11 @@ import za.co.wifi.info.remote.client.model.AdvertDTO;
 import za.co.wifi.info.remote.client.model.CategoryDTO;
 import za.co.wifi.info.remote.client.model.NodeDTO;
 
-@Component
-public class AdvertDownloadEvent {
+@Service
+@Scope("singleton")
+public class AdvertSyncService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AdvertDownloadEvent.class.getName());
-
-    private static final long SYNC_INTERVAL = 3600000;
+    private static final Logger LOGGER = LoggerFactory.getLogger(AdvertSyncService.class.getName());
 
     private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
 
@@ -66,7 +65,7 @@ public class AdvertDownloadEvent {
     private final String defaultDeviceRef;
 
     @Autowired
-    public AdvertDownloadEvent(@Value("${app.config.device.ref}") String defaultDeviceRef,
+    public AdvertSyncService(@Value("${app.config.device.ref}") String defaultDeviceRef,
             GSMConnectionUtil connectionUtil, NodeRepository nodeRepository,
             NodeBannerRepository nodeBannerRepository, AdvertRepository advertRepository,
             CategoryRepository categoryRepository, RemoteAdvertClient remoteAdvertClient) {
@@ -80,8 +79,9 @@ public class AdvertDownloadEvent {
         this.generator = new ReportGenerator();
     }
 
-    @Scheduled(fixedRate = SYNC_INTERVAL)
     public void syncDevice() {
+        LOGGER.info("Syncing adverts");
+        
         try {
             int connnectionRetries = 0;
             while (true) {
@@ -376,7 +376,7 @@ public class AdvertDownloadEvent {
         }
     }
 
-    public List<InputStream> generatePageByCategory(CategoryEntity categoryAdvert, List<InputStream> categoryAdvertsPdfFiles) {
+    private List<InputStream> generatePageByCategory(CategoryEntity categoryAdvert, List<InputStream> categoryAdvertsPdfFiles) {
 
         List<AdvertEntity> categoryAdverts = new LinkedList<>();
         try {

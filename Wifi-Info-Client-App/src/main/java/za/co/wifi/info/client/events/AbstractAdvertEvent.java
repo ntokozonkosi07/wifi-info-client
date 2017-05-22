@@ -55,7 +55,7 @@ public abstract class AbstractAdvertEvent {
         }
     }
 
-    public static void mergeAdverts(List<Category> existingCategoryAdverts, List<Category> newCategoryAdverts) {
+    public static List<Category> mergeAdverts(List<Category> existingCategoryAdverts, List<Category> newCategoryAdverts) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
