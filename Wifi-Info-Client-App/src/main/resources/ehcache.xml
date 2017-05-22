@@ -4,8 +4,8 @@
          updateCheck="true"
          monitoring="autodetect"
          dynamicConfig="true">
- 
-    <diskStore path="java.io.tmpdir" />
+
+    <diskStore path="java.io.tmpdir"/>
 
     <cache name="page_download"
            maxEntriesLocalHeap="5000"
@@ -15,9 +15,9 @@
            timeToLiveSeconds="3600000"
            memoryStoreEvictionPolicy="LFU"
            transactionalMode="off">
-        <persistence strategy="localTempSwap" />
+        <persistence strategy="localTempSwap"/>
     </cache>
-    
+
     <cache name="banners"
            maxEntriesLocalHeap="5000"
            maxEntriesLocalDisk="5000"
@@ -26,9 +26,9 @@
            timeToLiveSeconds="3600000"
            memoryStoreEvictionPolicy="LFU"
            transactionalMode="off">
-        <persistence strategy="localTempSwap" />
+        <persistence strategy="localTempSwap"/>
     </cache>
-    
+
     <cache name="adverts"
            maxEntriesLocalHeap="5000"
            maxEntriesLocalDisk="5000"
@@ -37,6 +37,6 @@
            timeToLiveSeconds="3600000"
            memoryStoreEvictionPolicy="LFU"
            transactionalMode="off">
-        <persistence strategy="localTempSwap" />
+        <persistence strategy="localTempSwap"/>
     </cache>
 </ehcache>

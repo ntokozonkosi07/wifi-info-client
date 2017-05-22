@@ -20,14 +20,6 @@ public enum AdvertType implements Serializable {
         this.description = description;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
     public static AdvertType getAdvertType(int id) {
         List<AdvertType> advertTypeEnums = Arrays.asList(values());
         for (AdvertType advertTypeEnum : advertTypeEnums) {
@@ -40,5 +32,13 @@ public enum AdvertType implements Serializable {
 
     public static List<AdvertType> getAllAdvertTypes() {
         return Arrays.asList(values());
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

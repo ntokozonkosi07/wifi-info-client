@@ -1,21 +1,18 @@
 package za.co.wifi.info.util;
 
 import java.io.Serializable;
-
 import java.util.Date;
-
 import java.util.List;
 
 /**
  * Copyright (C) 2014 RynMag Management Systems. All rights reserved.
- *
+ * <p>
  * This software contains confidential proprietary information belonging to
  * RynMag Management Systems. No part of this information may be used,
  * reproduced, or stored without prior written consent of RynMag Management
  * Systems.
  *
  * @author Z.M Mathebula <zifamathebula@gmail.com>
- *
  * @version 1.0
  */
 public class Validator implements Serializable {

@@ -23,13 +23,11 @@ public class AdvertDataDTO implements Serializable {
 
     /**
      * No args constructor for use in serialization
-     *
      */
     public AdvertDataDTO() {
     }
 
     /**
-     *
      * @param fileType
      * @param fileName
      * @param binaryData

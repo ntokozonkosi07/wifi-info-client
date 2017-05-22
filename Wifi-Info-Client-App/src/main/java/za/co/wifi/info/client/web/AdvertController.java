@@ -34,6 +34,17 @@ public class AdvertController {
         this.advertService = advertService;
     }
 
+    private static ResponseEntity getCreatedResponse(final Object entity) {
+        MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+        headers.add("Access-Control-Allow-Origin", "*");
+        headers.add("Access-Control-Allow-Headers", "*");
+        headers.add("Access-Control-Allow-Credentials", "true");
+        headers.add("Access-Control-Allow-Methods", "*");
+        headers.add("Access-Control-Max-Age", "1209600");
+
+        return new ResponseEntity(entity, headers, HttpStatus.CREATED);
+    }
+
     @ResponseBody
     @RequestMapping(path = "/page/download", method = RequestMethod.GET)
     public ResponseEntity generateDownloadPage() {
@@ -107,16 +118,5 @@ public class AdvertController {
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-    }
-
-    private static ResponseEntity getCreatedResponse(final Object entity) {
-        MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-        headers.add("Access-Control-Allow-Origin", "*");
-        headers.add("Access-Control-Allow-Headers", "*");
-        headers.add("Access-Control-Allow-Credentials", "true");
-        headers.add("Access-Control-Allow-Methods", "*");
-        headers.add("Access-Control-Max-Age", "1209600");
-
-        return new ResponseEntity(entity, headers, HttpStatus.CREATED);
     }
 }

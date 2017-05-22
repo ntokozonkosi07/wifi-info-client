@@ -39,6 +39,10 @@ public class FileUtil extends FileUtils {
     private static final Logger log = LoggerFactory.getLogger(FileUtil.class);
     private static final DecimalFormat SIZE_FORMAT = new DecimalFormat();
 
+    static {
+        SIZE_FORMAT.setMaximumFractionDigits(1);
+    }
+
     private FileUtil() {
     }
 
@@ -454,10 +458,6 @@ public class FileUtil extends FileUtils {
 
             return size;
         }
-    }
-
-    static {
-        SIZE_FORMAT.setMaximumFractionDigits(1);
     }
 
     private static class SearchingDirectoryWalker extends DirectoryWalker {

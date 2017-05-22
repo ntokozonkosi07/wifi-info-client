@@ -1,4 +1,3 @@
-
 package za.co.wifi.info.client.service;
 
 import java.util.List;

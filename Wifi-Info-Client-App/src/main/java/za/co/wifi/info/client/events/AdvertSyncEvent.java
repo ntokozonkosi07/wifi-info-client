@@ -57,7 +57,7 @@ public class AdvertSyncEvent extends AbstractAdvertEvent {
 
             advertService.setCategoryAdverts(categoryAdverts);
 
-            pageGeneratorService.generatePage(bannerLinkAdverts,categoryAdverts);
+            pageGeneratorService.generatePage(bannerLinkAdverts, categoryAdverts);
         } catch (Exception ex) {
             LOGGER.error("Error shuffling Adverts");
         }
@@ -69,7 +69,7 @@ public class AdvertSyncEvent extends AbstractAdvertEvent {
         try {
             List<BannerLink> bannerLinkAdverts = advertService.generateBannerLinkAdverts();
             advertService.setBannerLinkAdverts(bannerLinkAdverts);
-            
+
             return bannerLinkAdverts;
         } catch (Exception ex) {
             LOGGER.error("Error syncing banner links");

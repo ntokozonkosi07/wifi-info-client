@@ -8,15 +8,15 @@ public class DeviceInfo {
     private final String osName;
 
     private final String osVersion;
-    
+
     private final String osArchitecture;
-    
+
     private final int availableProcessors;
-    
+
     private final long freeMemory;
-    
+
     private final String maxMemory;
-    
+
     private final long availableMemory;
 
     public DeviceInfo() {

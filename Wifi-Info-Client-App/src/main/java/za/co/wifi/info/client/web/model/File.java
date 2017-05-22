@@ -1,7 +1,6 @@
 package za.co.wifi.info.client.web.model;
 
 import java.io.Serializable;
-
 import java.util.Objects;
 
 public class File implements Serializable {

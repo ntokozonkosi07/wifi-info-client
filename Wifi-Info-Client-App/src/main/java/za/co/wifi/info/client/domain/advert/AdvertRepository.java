@@ -22,7 +22,7 @@ public class AdvertRepository implements Serializable {
         AdvertDAO advertDAO = new AdvertDAO(em);
         return advertDAO.save(advert);
     }
-    
+
     public DownloadPageEntity save(DownloadPageEntity downloadPage) throws DBOperationFailedException {
         try {
             return em.merge(downloadPage);
@@ -50,7 +50,7 @@ public class AdvertRepository implements Serializable {
         AdvertDAO advertDAO = new AdvertDAO(em);
         return advertDAO.findAll(advertType);
     }
-    
+
     public List<AdvertEntity> findAll(List<AdvertType> advertTypes) throws DBOperationFailedException {
         AdvertDAO advertDAO = new AdvertDAO(em);
         return advertDAO.findAll(advertTypes);
@@ -60,7 +60,7 @@ public class AdvertRepository implements Serializable {
         AdvertDAO advertDAO = new AdvertDAO(em);
         return advertDAO.findAll(category, advertType);
     }
-    
+
     public List<AdvertEntity> findAll(CategoryEntity category, List<AdvertType> advertTypes) throws DBOperationFailedException {
         AdvertDAO advertDAO = new AdvertDAO(em);
         return advertDAO.findAll(category, advertTypes);

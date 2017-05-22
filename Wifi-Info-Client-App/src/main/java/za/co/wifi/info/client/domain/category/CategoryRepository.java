@@ -38,7 +38,7 @@ public class CategoryRepository implements Serializable {
         CategoryDAO categoryDAO = new CategoryDAO(em);
         return categoryDAO.findAll(categoryDTO);
     }
-    
+
     public List<CategoryEntity> findAllAdvertCategories() throws DBOperationFailedException {
         try {
             StringBuilder buff = new StringBuilder();

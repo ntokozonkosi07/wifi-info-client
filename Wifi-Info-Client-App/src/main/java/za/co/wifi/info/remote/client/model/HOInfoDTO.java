@@ -41,13 +41,11 @@ public class HOInfoDTO implements Serializable {
 
     /**
      * No args constructor for use in serialization
-     *
      */
     public HOInfoDTO() {
     }
 
     /**
-     *
      * @param timestamp
      * @param osVersion
      * @param availableMemory

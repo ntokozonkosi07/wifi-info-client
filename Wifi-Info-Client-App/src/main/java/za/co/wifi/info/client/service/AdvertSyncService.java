@@ -47,28 +47,20 @@ public class AdvertSyncService {
     private static final Logger LOGGER = LoggerFactory.getLogger(AdvertSyncService.class.getName());
 
     private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-
-    GSMConnectionUtil connectionUtil;
-
     private final NodeRepository nodeRepository;
-
     private final NodeBannerRepository nodeBannerRepository;
-
     private final AdvertRepository advertRepository;
-
     private final CategoryRepository categoryRepository;
-
     private final RemoteAdvertClient remoteAdvertClient;
-
     private final ReportGenerator generator;
-
     private final String defaultDeviceRef;
+    GSMConnectionUtil connectionUtil;
 
     @Autowired
     public AdvertSyncService(@Value("${app.config.device.ref}") String defaultDeviceRef,
-            GSMConnectionUtil connectionUtil, NodeRepository nodeRepository,
-            NodeBannerRepository nodeBannerRepository, AdvertRepository advertRepository,
-            CategoryRepository categoryRepository, RemoteAdvertClient remoteAdvertClient) {
+                             GSMConnectionUtil connectionUtil, NodeRepository nodeRepository,
+                             NodeBannerRepository nodeBannerRepository, AdvertRepository advertRepository,
+                             CategoryRepository categoryRepository, RemoteAdvertClient remoteAdvertClient) {
         this.defaultDeviceRef = defaultDeviceRef;
         this.connectionUtil = connectionUtil;
         this.nodeRepository = nodeRepository;
@@ -81,7 +73,7 @@ public class AdvertSyncService {
 
     public void syncDevice() {
         LOGGER.info("Syncing adverts");
-        
+
         try {
             int connnectionRetries = 0;
             while (true) {
@@ -108,7 +100,7 @@ public class AdvertSyncService {
 
             NodeEntity device = this.lookupDeviceRef();
 
-            boolean successfullyUpdatedConfig = device == null ? syncDeviceConfig(defaultDeviceRef,device) : syncDeviceConfig(device);
+            boolean successfullyUpdatedConfig = device == null ? syncDeviceConfig(defaultDeviceRef, device) : syncDeviceConfig(device);
             if (!successfullyUpdatedConfig) {
                 LOGGER.error("Failed to initialize device.....");
                 return;

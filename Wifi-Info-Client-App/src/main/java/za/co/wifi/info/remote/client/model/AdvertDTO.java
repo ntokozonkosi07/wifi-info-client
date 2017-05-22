@@ -41,13 +41,11 @@ public class AdvertDTO implements Serializable {
 
     /**
      * No args constructor for use in serialization
-     *
      */
     public AdvertDTO() {
     }
 
     /**
-     *
      * @param advertCategories
      * @param startDate
      * @param advertData

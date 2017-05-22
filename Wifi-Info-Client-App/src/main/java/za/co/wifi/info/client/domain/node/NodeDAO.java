@@ -10,14 +10,13 @@ import za.co.wifi.info.util.Validator;
 
 /**
  * Copyright (C) 2014 RynMag Management Systems. All rights reserved.
- *
+ * <p>
  * This software contains confidential proprietary information belonging to
  * RynMag Management Systems. No part of this information may be used,
  * reproduced, or stored without prior written consent of RynMag Management
  * Systems.
  *
  * @author Zifa Mathebula <zifamathebula@gmail.com>
- *
  * @version 1.0
  */
 public class NodeDAO implements Serializable {

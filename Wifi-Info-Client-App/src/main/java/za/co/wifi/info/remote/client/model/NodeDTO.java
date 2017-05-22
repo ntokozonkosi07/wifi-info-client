@@ -11,7 +11,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public class NodeDTO implements Serializable {
 
     private final static long serialVersionUID = 1L;
-    
+
     @JsonProperty("deviceRef")
     private String deviceRef;
 
@@ -32,13 +32,11 @@ public class NodeDTO implements Serializable {
 
     /**
      * No args constructor for use in serialization
-     *
      */
     public NodeDTO() {
     }
 
     /**
-     *
      * @param nodeCategory
      * @param deviceRef
      * @param address

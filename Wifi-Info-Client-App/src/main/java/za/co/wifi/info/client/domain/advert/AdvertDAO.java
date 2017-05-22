@@ -90,7 +90,7 @@ public class AdvertDAO implements Serializable {
             throw new DBOperationFailedException(ex.getLocalizedMessage(), ex);
         }
     }
-    
+
     public List<AdvertEntity> findAll(CategoryEntity category, AdvertType advertType) throws DBOperationFailedException {
         try {
             StringBuilder buff = new StringBuilder();
@@ -112,7 +112,7 @@ public class AdvertDAO implements Serializable {
             throw new DBOperationFailedException(ex.getLocalizedMessage(), ex);
         }
     }
-    
+
     public List<AdvertEntity> findAll(CategoryEntity category, List<AdvertType> advertTypes) throws DBOperationFailedException {
         try {
             StringBuilder buff = new StringBuilder();

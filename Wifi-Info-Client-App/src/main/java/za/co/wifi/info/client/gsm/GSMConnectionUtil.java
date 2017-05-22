@@ -15,6 +15,37 @@ public class GSMConnectionUtil {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GSMConnectionUtil.class.getName());
 
+    public static void main(String[] args) {
+        try {
+            GSMConnectionUtil connectionUtil = new GSMConnectionUtil();
+            int connnectionRetries = 0;
+            while (true) {
+                connectionUtil.connect();
+
+                if (connectionUtil.getStatus("https://www.google.com")) {
+                    break;
+                }
+
+                Thread.sleep(30000);
+
+                if (connnectionRetries >= 10) {
+                    System.exit(0);
+                }
+
+                connnectionRetries++;
+
+                System.out.println("");
+                System.out.println("===============================================");
+                System.out.println("");
+            }
+
+            connectionUtil.disconnect();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
     public void connect() {
         try {
             ProcessBuilder wvdailProcessBuilder = new ProcessBuilder("wvdial");
@@ -52,8 +83,8 @@ public class GSMConnectionUtil {
             wvdailProcessBuilder.start();
             return true;
         } catch (IOException ex) {
-            LOGGER.error("Unexpected error terminating connection",ex);
-            
+            LOGGER.error("Unexpected error terminating connection", ex);
+
             return false;
         }
     }
@@ -74,36 +105,5 @@ public class GSMConnectionUtil {
         }
 
         return false;
-    }
-
-    public static void main(String[] args) {
-        try {
-            GSMConnectionUtil connectionUtil = new GSMConnectionUtil();
-            int connnectionRetries = 0;
-            while (true) {
-                connectionUtil.connect();
-
-                if (connectionUtil.getStatus("https://www.google.com")) {
-                    break;
-                }
-
-                Thread.sleep(30000);
-
-                if (connnectionRetries >= 10) {
-                    System.exit(0);
-                }
-
-                connnectionRetries++;
-
-                System.out.println("");
-                System.out.println("===============================================");
-                System.out.println("");
-            }
-
-            connectionUtil.disconnect();
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
     }
 }

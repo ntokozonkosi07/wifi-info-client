@@ -20,7 +20,7 @@ public class DownloadPageEntity implements Serializable {
     @GeneratedValue(generator = "download_page", strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(name = "download_page", sequenceName = "download_page_seq", allocationSize = 1, initialValue = 1)
     private Long downloadPageRef;
-    
+
     @Column(name = "binary_data", nullable = false)
     private byte[] downloadPageData;
 

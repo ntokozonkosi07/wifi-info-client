@@ -13,6 +13,10 @@ public abstract class AbstractAdvertEvent {
 
     protected final Logger LOGGER = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
+    public static List<Category> mergeAdverts(List<Category> existingCategoryAdverts, List<Category> newCategoryAdverts) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
     protected void shuffleCategoryAdverts(List<Category> categoryAdverts) {
         LOGGER.debug(new MessageFormat("Shuffle category adverts for {0} categories")
                 .format(new Object[]{categoryAdverts.size()}));
@@ -53,10 +57,6 @@ public abstract class AbstractAdvertEvent {
             adverts.set(i, adverts.get(i + 1));
             adverts.set(i + 1, tmpAdvert);
         }
-    }
-
-    public static List<Category> mergeAdverts(List<Category> existingCategoryAdverts, List<Category> newCategoryAdverts) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     protected AdvertEntity findAdvertEntity(List<AdvertEntity> adverts, String advertRefNo) {

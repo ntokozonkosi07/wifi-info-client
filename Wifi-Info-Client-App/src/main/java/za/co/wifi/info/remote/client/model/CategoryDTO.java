@@ -38,13 +38,11 @@ public class CategoryDTO implements Serializable {
 
     /**
      * No args constructor for use in serialization
-     *
      */
     public CategoryDTO() {
     }
 
     /**
-     *
      * @param categoryName
      * @param createdBy
      * @param lastModifiedBy
