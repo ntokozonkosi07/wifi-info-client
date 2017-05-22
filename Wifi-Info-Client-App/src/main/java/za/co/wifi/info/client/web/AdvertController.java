@@ -112,9 +112,9 @@ public class AdvertController {
     private static ResponseEntity getCreatedResponse(final Object entity) {
         MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
         headers.add("Access-Control-Allow-Origin", "*");
-        headers.add("Access-Control-Allow-Headers", "Origin, Accept, x-auth-token, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
+        headers.add("Access-Control-Allow-Headers", "*");
         headers.add("Access-Control-Allow-Credentials", "true");
-        headers.add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
+        headers.add("Access-Control-Allow-Methods", "*");
         headers.add("Access-Control-Max-Age", "1209600");
 
         return new ResponseEntity(entity, headers, HttpStatus.CREATED);
