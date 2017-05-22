@@ -47,7 +47,8 @@
         
         <!--Compile time dependencies -->
         <version.postgresql>9.4.1212.jre7</version.postgresql> 
-        <version.liquibase>3.5.3</version.liquibase> 
+        <version.liquibase>3.5.3</version.liquibase>
+        <version.commons.io>2.4</version.commons.io>  
         <version.commons.lang>3.5</version.commons.lang> 
         <version.commons.collections>3.2.1</version.commons.collections> 
         <version.ehcache>2.6.11</version.ehcache>
@@ -78,6 +79,12 @@
                 <version>${version.liquibase}</version>
             </dependency>
 
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${version.commons.io}</version>
+            </dependency>
+            
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
