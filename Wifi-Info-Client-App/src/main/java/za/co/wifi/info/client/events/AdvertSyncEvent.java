@@ -3,6 +3,7 @@ package za.co.wifi.info.client.events;
 import java.util.LinkedList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -23,8 +24,8 @@ public class AdvertSyncEvent extends AbstractAdvertEvent {
 
     @Autowired
     public AdvertSyncEvent(AdvertService advertService,
-                           AdvertSyncService advertSyncService,
-                           PageGeneratorService pageGeneratorService) {
+            AdvertSyncService advertSyncService,
+            PageGeneratorService pageGeneratorService) {
         this.advertService = advertService;
         this.advertSyncService = advertSyncService;
         this.pageGeneratorService = pageGeneratorService;
@@ -79,6 +80,6 @@ public class AdvertSyncEvent extends AbstractAdvertEvent {
             LOGGER.error("Error syncing banner links");
         }
 
-        return new LinkedList<BannerLink>();
+        return new LinkedList<>();
     }
 }

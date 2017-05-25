@@ -2,6 +2,7 @@ package za.co.wifi.info.client.service;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
@@ -39,6 +40,7 @@ import za.co.wifi.info.remote.client.error.OperationFailedException;
 import za.co.wifi.info.remote.client.model.AdvertDTO;
 import za.co.wifi.info.remote.client.model.CategoryDTO;
 import za.co.wifi.info.remote.client.model.NodeDTO;
+import za.co.wifi.info.util.FileUtil;
 
 @Service
 @Scope("singleton")
@@ -54,17 +56,17 @@ public class AdvertSyncService {
     private final RemoteAdvertClient remoteAdvertClient;
     private final ReportGenerator generator;
     private final String defaultDeviceRef;
-    private final String webRootPath;
+    private final String advertRootPath;
     GSMConnectionUtil connectionUtil;
 
     @Autowired
     public AdvertSyncService(@Value("${app.config.device.ref}") String defaultDeviceRef,
-                             @Value("${app.config.device.web.root.path}") String webRootPath,
-                             GSMConnectionUtil connectionUtil, NodeRepository nodeRepository,
-                             NodeBannerRepository nodeBannerRepository, AdvertRepository advertRepository,
-                             CategoryRepository categoryRepository, RemoteAdvertClient remoteAdvertClient) {
+            @Value("${app.config.device.web.adverts.root.path}") String advertRootPath,
+            GSMConnectionUtil connectionUtil, NodeRepository nodeRepository,
+            NodeBannerRepository nodeBannerRepository, AdvertRepository advertRepository,
+            CategoryRepository categoryRepository, RemoteAdvertClient remoteAdvertClient) {
         this.defaultDeviceRef = defaultDeviceRef;
-        this.webRootPath = webRootPath;
+        this.advertRootPath = advertRootPath;
         this.connectionUtil = connectionUtil;
         this.nodeRepository = nodeRepository;
         this.nodeBannerRepository = nodeBannerRepository;
@@ -206,6 +208,8 @@ public class AdvertSyncService {
                             advertData.setFileType(downloadedAdvert.getAdvertData().getFileType());
                             advertData.setFileName(downloadedAdvert.getAdvertData().getFileName());
                             newAdvert.setAdvertData(advertData);
+
+                            saveToDisk(downloadedAdvert.getRefNo(), advertData);
                         }
 
                         if (downloadedAdvert.getAdvertLinkData() != null) {
@@ -214,6 +218,8 @@ public class AdvertSyncService {
                             advertLinkData.setFileType(downloadedAdvert.getAdvertLinkData().getFileType());
                             advertLinkData.setFileName(downloadedAdvert.getAdvertLinkData().getFileName());
                             newAdvert.setAdvertLinkData(advertLinkData);
+
+                            saveToDisk(downloadedAdvert.getRefNo(), advertLinkData);
                         }
 
                         if (!CollectionUtils.isEmpty(downloadedAdvert.getAdvertCategories())) {
@@ -475,5 +481,15 @@ public class AdvertSyncService {
         }
 
         return categoryAdvertsPdfFiles;
+    }
+
+    private File saveToDisk(String refNo, AdvertDataEntity advertData) {
+        String fileName = refNo + "." + getFileExtension(advertData.getFileName());
+        return FileUtil.toFile(fileName, advertRootPath, advertData.getBinaryData());
+    }
+
+    public static String getFileExtension(String fileName) {
+        int dotIndex = fileName.lastIndexOf('.');
+        return (dotIndex == -1) ? "" : fileName.substring(dotIndex + 1);
     }
 }

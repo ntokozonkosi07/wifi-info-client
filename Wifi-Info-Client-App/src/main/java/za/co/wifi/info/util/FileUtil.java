@@ -36,6 +36,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class FileUtil extends FileUtils {
+
     private static final Logger log = LoggerFactory.getLogger(FileUtil.class);
     private static final DecimalFormat SIZE_FORMAT = new DecimalFormat();
 
@@ -146,6 +147,34 @@ public class FileUtil extends FileUtils {
             IOUtils.closeQuietly(out);
         }
 
+    }
+
+    public static File toFile(String filename, String storageLocation, byte[] contents) {
+        ByteArrayInputStream in = null;
+        FileOutputStream out = null;
+
+        File var4;
+        try {
+            File storageDirectory = new File(storageLocation);
+            if (!storageDirectory.exists()) {
+                storageDirectory.mkdir();
+            }
+
+            File temp = new File(storageDirectory, filename);
+            touch(temp);
+
+            in = new ByteArrayInputStream(contents);
+            out = new FileOutputStream(temp);
+            IOUtils.copy(in, out);
+            var4 = temp;
+        } catch (Exception var8) {
+            throw new RuntimeException(var8);
+        } finally {
+            IOUtils.closeQuietly(in);
+            IOUtils.closeQuietly(out);
+        }
+
+        return var4;
     }
 
     public static File toFile(byte[] contents, String ext) {
@@ -461,6 +490,7 @@ public class FileUtil extends FileUtils {
     }
 
     private static class SearchingDirectoryWalker extends DirectoryWalker {
+
         private Pattern matcher;
         private Pattern dirMatcher;
         private File dir;
