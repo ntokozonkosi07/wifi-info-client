@@ -16,10 +16,10 @@ import za.co.wifi.info.client.web.model.Category;
 public class AdvertSyncEvent extends AbstractAdvertEvent {
 
     private static final long SYNC_INTERVAL = 3600000;
-
     private final AdvertService advertService;
     private final AdvertSyncService advertSyncService;
     private final PageGeneratorService pageGeneratorService;
+    private Long daysSinceStartup = 0L;
 
     @Autowired
     public AdvertSyncEvent(AdvertService advertService,
@@ -51,8 +51,12 @@ public class AdvertSyncEvent extends AbstractAdvertEvent {
             if (CollectionUtils.isEmpty(categoryAdverts)) {
                 categoryAdverts = advertService.generateCategoryAdverts();
             } else {
-                categoryAdverts = mergeAdverts(categoryAdverts, advertService.generateCategoryAdverts());
-                shuffleCategoryAdverts(categoryAdverts);
+                if (daysSinceStartup > 0) {
+                    categoryAdverts = mergeAdverts(categoryAdverts, advertService.generateCategoryAdverts());
+                    shuffleCategoryAdverts(categoryAdverts);
+                } else {
+                    daysSinceStartup++;
+                }
             }
 
             advertService.setCategoryAdverts(categoryAdverts);

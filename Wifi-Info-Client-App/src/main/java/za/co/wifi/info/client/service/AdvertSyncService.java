@@ -59,10 +59,10 @@ public class AdvertSyncService {
 
     @Autowired
     public AdvertSyncService(@Value("${app.config.device.ref}") String defaultDeviceRef,
-            @Value("${app.config.device.web.root.path}") String webRootPath,
-            GSMConnectionUtil connectionUtil, NodeRepository nodeRepository,
-            NodeBannerRepository nodeBannerRepository, AdvertRepository advertRepository,
-            CategoryRepository categoryRepository, RemoteAdvertClient remoteAdvertClient) {
+                             @Value("${app.config.device.web.root.path}") String webRootPath,
+                             GSMConnectionUtil connectionUtil, NodeRepository nodeRepository,
+                             NodeBannerRepository nodeBannerRepository, AdvertRepository advertRepository,
+                             CategoryRepository categoryRepository, RemoteAdvertClient remoteAdvertClient) {
         this.defaultDeviceRef = defaultDeviceRef;
         this.webRootPath = webRootPath;
         this.connectionUtil = connectionUtil;

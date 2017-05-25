@@ -1,8 +1,8 @@
 package za.co.wifi.info.client.web.model;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class Category implements Serializable {
 
@@ -12,7 +12,7 @@ public class Category implements Serializable {
 
     private String categoryName;
 
-    private List<Advert> adverts;
+    private Set<Advert> adverts;
 
     public Category() {
     }
@@ -33,11 +33,11 @@ public class Category implements Serializable {
         this.categoryName = categoryName;
     }
 
-    public List<Advert> getAdverts() {
+    public Set<Advert> getAdverts() {
         return adverts;
     }
 
-    public void setAdverts(List<Advert> adverts) {
+    public void setAdverts(Set<Advert> adverts) {
         this.adverts = adverts;
     }
 

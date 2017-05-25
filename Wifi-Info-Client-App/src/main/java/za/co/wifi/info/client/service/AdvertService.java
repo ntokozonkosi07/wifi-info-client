@@ -4,6 +4,7 @@ import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -180,7 +181,7 @@ public class AdvertService {
                     generatedCategory.setCategoryRef(category.getCategoryRef());
                     generatedCategory.setCategoryName(category.getCategoryName());
 
-                    List<Advert> catgeoryAdverts = new LinkedList<>();
+                    List<Advert> categoryAdverts = new LinkedList<>();
                     for (AdvertEntity categoryAdvert : tmpCategoryAdverts) {
                         try {
                             Advert generatedAdvert = new Advert();
@@ -188,14 +189,14 @@ public class AdvertService {
                             generatedAdvert.setAdvertBinaryData(Base64.getEncoder().encodeToString(categoryAdvert.getAdvertData().getBinaryData()));
                             generatedAdvert.setFileName(categoryAdvert.getAdvertData().getFileName());
                             generatedAdvert.setFileType(categoryAdvert.getAdvertData().getFileType());
-                            catgeoryAdverts.add(generatedAdvert);
+                            categoryAdverts.add(generatedAdvert);
                         } catch (Exception e) {
                             LOGGER.error("Unable to generate Advert : {0}", categoryAdvert.getAdvertRef());
                         }
                     }
-                    generatedCategory.setAdverts(catgeoryAdverts);
+                    generatedCategory.setAdverts(new LinkedHashSet<>(categoryAdverts));
                     generatedAdverts.add(generatedCategory);
-                } catch (Exception exception) {
+                } catch (Exception ex) {
                     LOGGER.error("Unable to generate Category : {0}", category.getCategoryRef());
                 }
             }

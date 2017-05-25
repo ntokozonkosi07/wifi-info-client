@@ -1,7 +1,10 @@
 package za.co.wifi.info.client.events;
 
 import java.text.MessageFormat;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
@@ -14,7 +17,10 @@ public abstract class AbstractAdvertEvent {
     protected final Logger LOGGER = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
     public static List<Category> mergeAdverts(List<Category> existingCategoryAdverts, List<Category> newCategoryAdverts) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Set<Category> existingAdverts = new LinkedHashSet<>(existingCategoryAdverts);
+        existingAdverts.addAll(new LinkedHashSet<>(newCategoryAdverts));
+
+        return new LinkedList<>(existingAdverts);
     }
 
     protected void shuffleCategoryAdverts(List<Category> categoryAdverts) {
@@ -33,8 +39,8 @@ public abstract class AbstractAdvertEvent {
             categoryAdverts.set(i + 1, tmpCategoryAdvert);
         }
 
-        categoryAdverts.forEach((catgeoryAdvert) -> {
-            shuffleAdverts(catgeoryAdvert.getCategoryName(), catgeoryAdvert.getAdverts());
+        categoryAdverts.forEach((Category categoryAdvert) -> {
+            shuffleAdverts(categoryAdvert.getCategoryName(), new LinkedList<>(categoryAdvert.getAdverts()));
         });
 
         LOGGER.debug(new MessageFormat("Completed category adverts shuffle for {0} categories")
