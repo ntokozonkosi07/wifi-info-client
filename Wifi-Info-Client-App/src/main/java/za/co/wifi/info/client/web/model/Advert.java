@@ -9,6 +9,8 @@ public class Advert implements Serializable {
 
     private Long advertRef;
 
+    private String advertRefNo;
+
     private String advertBinaryData;
 
     private String fileName;
@@ -26,6 +28,14 @@ public class Advert implements Serializable {
 
     public void setAdvertRef(Long advertRef) {
         this.advertRef = advertRef;
+    }
+
+    public String getAdvertRefNo() {
+        return advertRefNo;
+    }
+
+    public void setAdvertRefNo(String advertRefNo) {
+        this.advertRefNo = advertRefNo;
     }
 
     public String getAdvertBinaryData() {

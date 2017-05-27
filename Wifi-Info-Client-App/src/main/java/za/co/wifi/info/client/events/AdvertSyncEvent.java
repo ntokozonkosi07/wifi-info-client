@@ -3,13 +3,12 @@ package za.co.wifi.info.client.events;
 import java.util.LinkedList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import za.co.wifi.info.client.service.AdvertService;
 import za.co.wifi.info.client.service.AdvertSyncService;
-import za.co.wifi.info.client.service.PageGeneratorService;
+import za.co.wifi.info.client.service.HtmlHtmlPageGeneratorService;
 import za.co.wifi.info.client.web.model.BannerLink;
 import za.co.wifi.info.client.web.model.Category;
 
@@ -17,18 +16,20 @@ import za.co.wifi.info.client.web.model.Category;
 public class AdvertSyncEvent extends AbstractAdvertEvent {
 
     private static final long SYNC_INTERVAL = 3600000;
+    private static final long DELAY_INTERVAL = 600000;
+
     private final AdvertService advertService;
     private final AdvertSyncService advertSyncService;
-    private final PageGeneratorService pageGeneratorService;
+    private final HtmlHtmlPageGeneratorService htmlPageGeneratorService;
     private Long daysSinceStartup = 0L;
-
+    
     @Autowired
     public AdvertSyncEvent(AdvertService advertService,
-            AdvertSyncService advertSyncService,
-            PageGeneratorService pageGeneratorService) {
+                           AdvertSyncService advertSyncService,
+                           HtmlHtmlPageGeneratorService htmlPageGeneratorService) {
         this.advertService = advertService;
         this.advertSyncService = advertSyncService;
-        this.pageGeneratorService = pageGeneratorService;
+        this.htmlPageGeneratorService = htmlPageGeneratorService;
     }
 
     @Scheduled(fixedRate = SYNC_INTERVAL)
@@ -62,9 +63,9 @@ public class AdvertSyncEvent extends AbstractAdvertEvent {
 
             advertService.setCategoryAdverts(categoryAdverts);
 
-            pageGeneratorService.generatePage(bannerLinkAdverts, categoryAdverts);
+            htmlPageGeneratorService.generatePage(bannerLinkAdverts, categoryAdverts);
         } catch (Exception ex) {
-            LOGGER.error("Error shuffling Adverts");
+            LOGGER.error("Error shuffling Adverts : " + ex.getMessage());
         }
     }
 

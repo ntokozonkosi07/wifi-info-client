@@ -186,6 +186,7 @@ public class AdvertService {
                         try {
                             Advert generatedAdvert = new Advert();
                             generatedAdvert.setAdvertRef(categoryAdvert.getAdvertRef());
+                            generatedAdvert.setAdvertRefNo(categoryAdvert.getAdvertRefNo());
                             generatedAdvert.setAdvertBinaryData(Base64.getEncoder().encodeToString(categoryAdvert.getAdvertData().getBinaryData()));
                             generatedAdvert.setFileName(categoryAdvert.getAdvertData().getFileName());
                             generatedAdvert.setFileType(categoryAdvert.getAdvertData().getFileType());

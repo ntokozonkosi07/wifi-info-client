@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import za.co.rynmag.wifiinfo.pdf.generator.ReportGenerator;
 import za.co.rynmag.wifiinfo.pdf.generator.ReportGeneratorException;
+import za.co.wifi.info.client.domain.BaseBinaryDataEntity;
 import za.co.wifi.info.client.domain.DBOperationFailedException;
 import za.co.wifi.info.client.domain.advert.AdvertCategoryEntity;
 import za.co.wifi.info.client.domain.advert.AdvertDataEntity;
@@ -61,10 +62,10 @@ public class AdvertSyncService {
 
     @Autowired
     public AdvertSyncService(@Value("${app.config.device.ref}") String defaultDeviceRef,
-            @Value("${app.config.device.web.adverts.root.path}") String advertRootPath,
-            GSMConnectionUtil connectionUtil, NodeRepository nodeRepository,
-            NodeBannerRepository nodeBannerRepository, AdvertRepository advertRepository,
-            CategoryRepository categoryRepository, RemoteAdvertClient remoteAdvertClient) {
+                             @Value("${app.config.device.web.adverts.root.path}") String advertRootPath,
+                             GSMConnectionUtil connectionUtil, NodeRepository nodeRepository,
+                             NodeBannerRepository nodeBannerRepository, AdvertRepository advertRepository,
+                             CategoryRepository categoryRepository, RemoteAdvertClient remoteAdvertClient) {
         this.defaultDeviceRef = defaultDeviceRef;
         this.advertRootPath = advertRootPath;
         this.connectionUtil = connectionUtil;
@@ -74,6 +75,11 @@ public class AdvertSyncService {
         this.categoryRepository = categoryRepository;
         this.remoteAdvertClient = remoteAdvertClient;
         this.generator = new ReportGenerator();
+    }
+
+    public String getFileExtension(String fileName) {
+        int dotIndex = fileName.lastIndexOf('.');
+        return (dotIndex == -1) ? "" : fileName.substring(dotIndex + 1);
     }
 
     public void syncDevice() {
@@ -152,6 +158,8 @@ public class AdvertSyncService {
                 nodeData.setFileType(downloadeNodeBanner.getAdvertData().getFileType());
                 nodeData.setFileName(downloadeNodeBanner.getAdvertData().getFileName());
                 newNodeBanner.setNodeData(nodeData);
+
+                saveToDisk(downloadeNodeBanner.getRefNo(), nodeData);
             }
 
             if (downloadeNodeBanner.getAdvertLinkData() != null) {
@@ -160,6 +168,8 @@ public class AdvertSyncService {
                 nodeLinkData.setFileType(downloadeNodeBanner.getAdvertLinkData().getFileType());
                 nodeLinkData.setFileName(downloadeNodeBanner.getAdvertLinkData().getFileName());
                 newNodeBanner.setNodeLinkData(nodeLinkData);
+
+                saveToDisk(downloadeNodeBanner.getRefNo(), nodeLinkData);
             }
 
             nodeBannerRepository.saveNodeBanner(newNodeBanner);
@@ -190,7 +200,7 @@ public class AdvertSyncService {
                 existingAdvert = advertRepository.find(lookupAdvert);
 
                 if (existingAdvert == null) {
-                    LOGGER.info(new MessageFormat("Downlaoding advert : {0}")
+                    LOGGER.info(new MessageFormat("Downloading advert : {0}")
                             .format(new Object[]{advertRefNo}));
 
                     AdvertDTO downloadedAdvert = remoteAdvertClient.lookupAdvert(advertRefNo);
@@ -240,11 +250,11 @@ public class AdvertSyncService {
 
                         advertRepository.update(newAdvert);
 
-                        LOGGER.info(new MessageFormat("Completed downlaoding advert : {0}")
+                        LOGGER.info(new MessageFormat("Completed downloading advert : {0}")
                                 .format(new Object[]{advertRefNo}));
 
                     } catch (DBOperationFailedException | ParseException ex) {
-                        LOGGER.error(new MessageFormat("Error downlaoding advert : {0}")
+                        LOGGER.error(new MessageFormat("Error downloading advert : {0}")
                                 .format(new Object[]{advertRefNo}), ex);
                     }
                 }
@@ -371,6 +381,8 @@ public class AdvertSyncService {
 
             advertRepository.save(downloadPage);
 
+            saveToDisk("download_page.pdf", downloadPageOutStream.toByteArray());
+
             LOGGER.info("Completed creating download page");
         } catch (DBOperationFailedException | ReportGeneratorException ex) {
             LOGGER.error("Unexpected error occured creating download page", ex);
@@ -483,13 +495,12 @@ public class AdvertSyncService {
         return categoryAdvertsPdfFiles;
     }
 
-    private File saveToDisk(String refNo, AdvertDataEntity advertData) {
+    private File saveToDisk(String refNo, BaseBinaryDataEntity advertData) {
         String fileName = refNo + "." + getFileExtension(advertData.getFileName());
-        return FileUtil.toFile(fileName, advertRootPath, advertData.getBinaryData());
+        return this.saveToDisk(fileName, advertData.getBinaryData());
     }
 
-    public static String getFileExtension(String fileName) {
-        int dotIndex = fileName.lastIndexOf('.');
-        return (dotIndex == -1) ? "" : fileName.substring(dotIndex + 1);
+    private File saveToDisk(String fileName, byte[] advertData) {
+        return FileUtil.toFile(fileName, advertRootPath, advertData);
     }
 }
