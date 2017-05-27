@@ -22,7 +22,7 @@ public class AdvertSyncEvent extends AbstractAdvertEvent {
     private final AdvertSyncService advertSyncService;
     private final HtmlHtmlPageGeneratorService htmlPageGeneratorService;
     private Long daysSinceStartup = 0L;
-    
+
     @Autowired
     public AdvertSyncEvent(AdvertService advertService,
                            AdvertSyncService advertSyncService,
